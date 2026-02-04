@@ -612,10 +612,444 @@ const Index = () => {
         </div>
       </section>
 
-      <footer className="bg-primary/95 text-primary-foreground py-8 border-t border-white/10">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-lg font-semibold mb-2">Техно-Сиб</p>
-          <p className="text-sm opacity-75">© 2024. Промышленное оборудование для мясопереработки</p>
+      <section className="py-20 bg-secondary">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="animate-fade-in">
+              <h2 className="text-4xl md:text-5xl font-bold mb-8">
+                Как вы получите подходящую модель без покупки вслепую
+              </h2>
+              <div className="space-y-6 mb-8">
+                {[
+                  { step: '01', title: 'Уточняем продукт, кг/ч, режим, сырьё', description: 'Собираем техническое задание под вашу специфику' },
+                  { step: '02', title: 'Даем 2–3 варианта', description: 'Комплектация, сроки поставки и бюджет' },
+                  { step: '03', title: 'Демонстрация в МСК/НСК или видео', description: 'Показываем узлы, разборку и работу под нагрузкой' },
+                  { step: '04', title: 'Договор: фиксируем сроки и условия', description: 'Закрепляем параметры и гарантии' },
+                  { step: '05', title: 'Поставка и пусконаладка', description: 'Доставка, подключение и запуск оборудования' },
+                  { step: '06', title: 'Сервис: гарантия и запчасти', description: 'Техподдержка и комплектующие на складе' },
+                ].map((item, index) => (
+                  <div key={index} className="flex items-start gap-4">
+                    <div className="w-16 h-16 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-xl font-bold">{item.step}</span>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg mb-1">{item.title}</h3>
+                      <p className="text-muted-foreground">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Card className="bg-primary text-primary-foreground">
+                <CardContent className="p-8">
+                  <p className="text-xl font-semibold mb-6">Начать подбор</p>
+                  <form className="space-y-4">
+                    <Input placeholder="Ваше имя" className="bg-white text-foreground" />
+                    <Input type="tel" placeholder="+7 (___) ___-__-__" className="bg-white text-foreground" />
+                    <div className="flex items-start gap-2">
+                      <Checkbox id="plan-agree" className="bg-white" />
+                      <label htmlFor="plan-agree" className="text-sm cursor-pointer">
+                        Я согласен с <a href="#" className="text-accent underline">политикой конфиденциальности</a>
+                      </label>
+                    </div>
+                    <Button type="submit" size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+                      Отправить
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="relative">
+              <img
+                src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/files/7256c038-3d31-4484-a7ac-1acb394c7254.jpg"
+                alt="Инженер в демозале"
+                className="rounded-lg shadow-2xl w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gradient-to-br from-primary to-primary/90 text-primary-foreground">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Подберём волчок/куттер за 3 минуты</h2>
+            <p className="text-xl opacity-95">Ответьте на 8 вопросов и получите КП с 2–3 вариантами</p>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <Card className="bg-white shadow-2xl">
+              <CardContent className="p-8 md:p-12">
+                <div className="space-y-8">
+                  <div>
+                    <Label className="text-lg font-semibold text-foreground mb-3 block">1. Что вам нужно?</Label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {['Волчок', 'Куттер', 'Комплект'].map((option) => (
+                        <Button key={option} variant="outline" className="h-auto py-4 text-base">
+                          {option}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-lg font-semibold text-foreground mb-3 block">2. Производительность (кг/ч)?</Label>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {['до 500', '500–1500', '1500–3000', '3000–10 000'].map((option) => (
+                        <Button key={option} variant="outline" className="h-auto py-4 text-sm">
+                          {option}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-lg font-semibold text-foreground mb-3 block">3. Продукт?</Label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {['Котлеты', 'Пельмени', 'Колбасы', 'Эмульсия', 'Фарш', 'Другое'].map((option) => (
+                        <Button key={option} variant="outline" className="h-auto py-4 text-sm">
+                          {option}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-lg font-semibold text-foreground mb-3 block">4. Сырьё?</Label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {['Охлаждённое', 'Подмороженное', 'Смешанное'].map((option) => (
+                        <Button key={option} variant="outline" className="h-auto py-4 text-sm">
+                          {option}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-lg font-semibold text-foreground mb-3 block">5. Режим работы?</Label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {['1 смена', '2 смены', '24/7'].map((option) => (
+                        <Button key={option} variant="outline" className="h-auto py-4 text-base">
+                          {option}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-lg font-semibold text-foreground mb-3 block">6. Что важнее всего?</Label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {['Качество', 'Скорость', 'Лёгкая мойка', 'Срок поставки', 'Цена'].map((option) => (
+                        <Button key={option} variant="outline" className="h-auto py-4 text-sm">
+                          {option}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-lg font-semibold text-foreground mb-3 block">7. Демонстрация?</Label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {['Москва', 'Новосибирск', 'Видео достаточно'].map((option) => (
+                        <Button key={option} variant="outline" className="h-auto py-4 text-sm">
+                          {option}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-lg font-semibold text-foreground mb-3 block">8. Срок решения?</Label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {['Срочно', '1–2 недели', 'Планово'].map((option) => (
+                        <Button key={option} variant="outline" className="h-auto py-4 text-base">
+                          {option}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="border-t pt-8 mt-8">
+                    <p className="text-xl font-semibold text-foreground mb-6">
+                      Оставьте контакты — отправим подбор и КП с 2–3 вариантами
+                    </p>
+                    <form className="space-y-4">
+                      <Input placeholder="Ваше имя" />
+                      <Input type="tel" placeholder="+7 (___) ___-__-__" />
+                      <div className="flex items-start gap-2">
+                        <Checkbox id="quiz-agree" />
+                        <label htmlFor="quiz-agree" className="text-sm text-muted-foreground cursor-pointer">
+                          Я согласен с <a href="#" className="text-accent underline">политикой конфиденциальности</a>
+                        </label>
+                      </div>
+                      <Button type="submit" size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+                        Получить подбор
+                      </Button>
+                    </form>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Сервис, чтобы оборудование работало, а не стояло
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {[
+              { icon: 'Truck', title: 'Доставка по РФ', text: 'Сроки согласуем заранее' },
+              { icon: 'Cog', title: 'Запчасти/расходники', text: 'Ножи, решётки, уплотнения на складе' },
+              { icon: 'Wrench', title: 'Пусконаладка', text: 'Ввод в эксплуатацию и настройка режимов' },
+              { icon: 'GraduationCap', title: 'Обучение персонала', text: 'Разборка, мойка, базовое техобслуживание' },
+              { icon: 'ShieldCheck', title: 'Гарантия', text: 'Условия прописаны в договоре' },
+              { icon: 'Headphones', title: 'Техподдержка', text: 'Консультации по эксплуатации' },
+            ].map((service, index) => (
+              <Card key={index} className="hover-scale border-t-4 border-t-accent">
+                <CardContent className="p-6">
+                  <div className="w-14 h-14 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
+                    <Icon name={service.icon} className="w-7 h-7 text-accent" />
+                  </div>
+                  <h3 className="font-bold text-xl mb-2">{service.title}</h3>
+                  <p className="text-muted-foreground">{service.text}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative">
+              <img
+                src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/files/0d0f8beb-1ac3-4a9f-a5b2-e264c07a787d.jpg"
+                alt="Запчасти и комплектующие"
+                className="rounded-lg shadow-xl w-full"
+              />
+            </div>
+            <div className="text-center lg:text-left">
+              <h3 className="text-3xl font-bold mb-6">Нужен комплект ЗИП?</h3>
+              <p className="text-xl text-muted-foreground mb-8">
+                Запросите перечень запчастей и расходников под вашу модель
+              </p>
+              <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-8 py-6">
+                Запросить комплект ЗИП
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-secondary">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Частые вопросы</h2>
+            <p className="text-xl text-muted-foreground">По ролям: для удобства навигации</p>
+          </div>
+          <div className="max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-4 gap-4 mb-8">
+              {['Директор', 'Инженер', 'Технолог', 'Закупщик'].map((role) => (
+                <Button key={role} variant="outline" className="h-auto py-6 text-lg font-semibold hover-scale">
+                  {role}
+                </Button>
+              ))}
+            </div>
+            <div className="space-y-4 mb-12">
+              {[
+                {
+                  q: 'Какие сроки поставки и запуска оборудования?',
+                  a: 'В среднем 2–4 недели с момента подписания договора. Срочные поставки — по согласованию. Пусконаладка занимает 1–2 дня.',
+                },
+                {
+                  q: 'Как снизить риск простоя производства?',
+                  a: 'Держим складской запас основных расходников (ножи, решётки, уплотнения). Проводим обучение персонала. Предоставляем техподдержку.',
+                },
+                {
+                  q: 'Почему цена ниже, чем у других?',
+                  a: 'Прямые поставки с заводов без посредников. Работаем напрямую с производителями в Европе и Китае.',
+                },
+                {
+                  q: 'Как быстро доступны запчасти?',
+                  a: 'Основные позиции — на складе (ножи, решётки, уплотнители). Специфичные узлы — 7–14 дней.',
+                },
+                {
+                  q: 'Какие требования по электрике и подключению?',
+                  a: 'Предоставляем спецификацию до поставки: напряжение, мощность, обвязка, габариты. Можно обсудить в демозале.',
+                },
+                {
+                  q: 'Можно посмотреть узлы в демозале?',
+                  a: 'Да, демозалы работают в Москве и Новосибирске. Покажем разборку, узлы, расходники. Запись по телефону.',
+                },
+                {
+                  q: 'Как оборудование влияет на структуру фарша?',
+                  a: 'Зависит от типа ножей, решёток, скорости. Подбираем под ваш продукт: котлеты, колбасы, эмульсия. Можем протестировать.',
+                },
+                {
+                  q: 'Что влияет на "мажет" при работе?',
+                  a: 'Температура сырья, состояние ножей, подача. Проводим настройку под ваши режимы при пусконаладке.',
+                },
+                {
+                  q: 'Можете подготовить КП под тендер за 24 часа?',
+                  a: 'Да. Предоставим КП с полной спецификацией, альтернативными вариантами и документами в формате вашей закупки.',
+                },
+                {
+                  q: 'Какие документы для закупки?',
+                  a: 'КП, спецификация, сертификаты, декларации соответствия, паспорта. Формируем пакет по вашему запросу.',
+                },
+              ].map((item, index) => (
+                <Card key={index} className="hover-scale">
+                  <CardContent className="p-6">
+                    <h3 className="font-bold text-lg mb-3 text-foreground">{item.q}</h3>
+                    <p className="text-muted-foreground">{item.a}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <Card className="bg-primary text-primary-foreground">
+              <CardContent className="p-8">
+                <p className="text-xl font-semibold mb-6">Не нашли ответ? Задайте вопрос инженеру</p>
+                <form className="space-y-4">
+                  <Input placeholder="Ваше имя" className="bg-white text-foreground" />
+                  <Input type="tel" placeholder="+7 (___) ___-__-__" className="bg-white text-foreground" />
+                  <div className="flex items-start gap-2">
+                    <Checkbox id="faq-agree" className="bg-white" />
+                    <label htmlFor="faq-agree" className="text-sm cursor-pointer">
+                      Я согласен с <a href="#" className="text-accent underline">политикой конфиденциальности</a>
+                    </label>
+                  </div>
+                  <Button type="submit" size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+                    Отправить
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gradient-to-br from-primary to-primary/90 text-primary-foreground">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="animate-fade-in">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                Техно-Сиб — поставки оборудования для мясопереработки
+              </h2>
+              <p className="text-xl mb-8 opacity-95">
+                Поставляем волчки и куттеры напрямую с заводов. Подбираем комплектацию под продукт и производительность, организуем демонстрацию и запуск.
+              </p>
+              <div className="space-y-6 mb-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
+                    <Icon name="Phone" className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-xl mb-1">Телефон</h3>
+                    <p className="text-lg">8-800-533-82-68</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-accent flex items-center justify-center flex-shrink-0">
+                    <Icon name="MapPin" className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-xl mb-2">Демозалы</h3>
+                    <p className="mb-3">
+                      <span className="font-semibold">Москва:</span><br />
+                      ш. Энтузиастов, д. 56, стр. 32, офис 115
+                    </p>
+                    <p>
+                      <span className="font-semibold">Новосибирск:</span><br />
+                      ул. Электрозаводская, 2 к1, офис 304, 314
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold px-8 py-6">
+                  Позвонить
+                </Button>
+                <Button size="lg" variant="outline" className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary font-semibold px-8 py-6">
+                  Записаться на демо
+                </Button>
+              </div>
+            </div>
+            <Card className="bg-white shadow-2xl">
+              <CardContent className="p-8">
+                <h3 className="text-2xl font-bold text-foreground mb-6">Заказать звонок</h3>
+                <form className="space-y-4">
+                  <div>
+                    <Label htmlFor="about-name" className="text-foreground">Имя *</Label>
+                    <Input id="about-name" placeholder="Ваше имя" className="mt-2" />
+                  </div>
+                  <div>
+                    <Label htmlFor="about-phone" className="text-foreground">Телефон *</Label>
+                    <Input id="about-phone" type="tel" placeholder="+7 (___) ___-__-__" className="mt-2" />
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Checkbox id="about-agree" />
+                    <label htmlFor="about-agree" className="text-sm text-muted-foreground cursor-pointer">
+                      Я согласен с <a href="#" className="text-accent underline">политикой конфиденциальности</a>
+                    </label>
+                  </div>
+                  <Button type="submit" size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+                    Отправить
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <footer className="bg-primary text-primary-foreground py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4">Компания</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-accent transition-colors">О компании</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">Демозалы</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">Контакты</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-4">Оборудование</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-accent transition-colors">Волчки</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">Куттеры</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">Производители</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">Каталог</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-4">Сервис</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-accent transition-colors">Доставка</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">Пусконаладка</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">Запчасти</a></li>
+                <li><a href="#" className="hover:text-accent transition-colors">Гарантия</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-4">Контакты</h3>
+              <ul className="space-y-2 text-sm">
+                <li className="font-semibold text-base">8-800-533-82-68</li>
+                <li className="pt-2">
+                  <span className="font-semibold">Москва:</span><br />
+                  ш. Энтузиастов, д. 56, стр. 32, офис 115
+                </li>
+                <li className="pt-2">
+                  <span className="font-semibold">Новосибирск:</span><br />
+                  ул. Электрозаводская, 2 к1, офис 304, 314
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-center md:text-left">
+              <p className="text-2xl font-bold mb-2">Техно-Сиб</p>
+              <p className="text-sm opacity-75">© 2024. Промышленное оборудование для мясопереработки</p>
+            </div>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <a href="#" className="text-sm hover:text-accent transition-colors">Политика конфиденциальности</a>
+              <a href="#" className="text-sm hover:text-accent transition-colors">Пользовательское соглашение</a>
+            </div>
+            <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
+              Получить КП за 24 часа
+            </Button>
+          </div>
         </div>
       </footer>
     </div>
