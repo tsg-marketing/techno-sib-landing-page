@@ -506,7 +506,7 @@ const Index = () => {
                     </div>
                     <div className="flex items-start gap-3">
                       <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                      <p className="text-lg text-foreground"><strong>Цена без наценок:</strong> поставки напрямую от производителей</p>
+                      <p className="text-lg text-foreground"><strong>Цена от производителя</strong></p>
                     </div>
                     <div className="flex items-start gap-3">
                       <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />

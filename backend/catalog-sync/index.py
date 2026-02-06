@@ -44,7 +44,7 @@ def handler(event, context):
             category_id = offer.find('categoryId')
             if category_id is not None and category_id.text in target_categories:
                 product = parse_product(offer)
-                if product:
+                if product and product.get('price', 0) >= 300000:
                     filtered_products.append(product)
         
         # Возвращаем результат
