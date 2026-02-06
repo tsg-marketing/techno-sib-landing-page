@@ -201,7 +201,7 @@ const Index = () => {
       text: 'Демозалы МСК/НСК — покажем узлы и обслуживание',
     },
     {
-      image: 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/files/6daba346-ca07-428c-ac88-849d4a8dd86a.jpg',
+      image: 'https://cdn.poehali.dev/files/f680aa79-8524-4587-9a3b-bcccb9d21b0e.jpg',
       text: 'Подбор под продукт — ножи/решётки/режимы',
     },
     {
