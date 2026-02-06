@@ -41,6 +41,7 @@ const Index = () => {
   const [showProductModal, setShowProductModal] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [productImageIndexes, setProductImageIndexes] = useState<{[key: string]: number}>({});
 
   // Загружаем каталог при монтировании компонента
   useEffect(() => {
@@ -488,7 +489,9 @@ const Index = () => {
                       src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/DRB%20JR-120%20%D0%92%D0%BE%D0%BB%D1%87%D0%BE%D0%BA%20%D0%A2%D0%A1%D0%93.mp4"
                       controls
                       autoPlay
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-contain"
+                      muted
+                      playsInline
+                      className="w-full h-full object-contain"
                     />
                   )}
                 </div>
@@ -689,16 +692,51 @@ const Index = () => {
               {filteredCatalogProducts.map((product) => (
                 <Card key={product.id} className="hover-scale overflow-hidden flex flex-col">
                   {product.additional_images && product.additional_images.length > 0 ? (
-                    <div className="relative w-full h-56 bg-secondary">
+                    <div className="relative w-full h-56 bg-secondary group">
                       <img 
-                        src={product.additional_images[0] || product.picture} 
+                        src={product.additional_images[productImageIndexes[product.id] || 0] || product.picture} 
                         alt={product.name} 
                         className="w-full h-full object-contain"
                       />
                       {product.additional_images.length > 1 && (
                         <>
-                          <div className="absolute bottom-2 right-2 bg-black/60 text-white px-2 py-1 rounded text-xs">
-                            +{product.additional_images.length - 1} фото
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const currentIndex = productImageIndexes[product.id] || 0;
+                              const newIndex = currentIndex === 0 ? product.additional_images.length - 1 : currentIndex - 1;
+                              setProductImageIndexes(prev => ({...prev, [product.id]: newIndex}));
+                            }}
+                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <Icon name="ChevronLeft" className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const currentIndex = productImageIndexes[product.id] || 0;
+                              const newIndex = currentIndex === product.additional_images.length - 1 ? 0 : currentIndex + 1;
+                              setProductImageIndexes(prev => ({...prev, [product.id]: newIndex}));
+                            }}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <Icon name="ChevronRight" className="w-4 h-4" />
+                          </button>
+                          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+                            {product.additional_images.map((_: any, idx: number) => (
+                              <button
+                                key={idx}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setProductImageIndexes(prev => ({...prev, [product.id]: idx}));
+                                }}
+                                className={`w-2 h-2 rounded-full transition-all ${
+                                  idx === (productImageIndexes[product.id] || 0) 
+                                    ? 'bg-accent w-6' 
+                                    : 'bg-white/60 hover:bg-white/80'
+                                }`}
+                              />
+                            ))}
                           </div>
                         </>
                       )}
