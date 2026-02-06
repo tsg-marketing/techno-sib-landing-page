@@ -193,7 +193,7 @@ const Index = () => {
 
   const advantages = [
     {
-      image: 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/files/3b82465c-afcd-4254-b9ae-c0389faf7ba9.jpg',
+      image: 'https://cdn.poehali.dev/files/7f8f0530-fd16-4245-8986-d11ddcdd92fc.jpg',
       text: 'Прямые поставки с заводов — фиксируем комплектацию и сроки',
     },
     {
