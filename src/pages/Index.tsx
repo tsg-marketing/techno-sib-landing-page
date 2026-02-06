@@ -438,11 +438,10 @@ const Index = () => {
             <div className="flex lg:hidden items-center gap-2">
               <Button
                 variant="ghost"
-                size="icon"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden text-primary-foreground hover:bg-primary-foreground/10"
+                className="lg:hidden text-primary-foreground hover:bg-primary-foreground/10 p-2"
               >
-                <Icon name={mobileMenuOpen ? "X" : "Menu"} className="w-10 h-10" />
+                <Icon name={mobileMenuOpen ? "X" : "Menu"} className="w-12 h-12" />
               </Button>
             </div>
           </div>
@@ -481,7 +480,7 @@ const Index = () => {
 
 
 
-      <section className="relative py-6 md:py-12 bg-gradient-to-br from-secondary via-background to-secondary overflow-hidden">
+      <section className="relative pt-2 pb-6 md:pt-4 md:pb-8 bg-gradient-to-br from-secondary via-background to-secondary overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
             <Card className="overflow-hidden shadow-2xl bg-white relative">
