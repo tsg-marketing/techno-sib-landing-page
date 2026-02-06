@@ -1083,7 +1083,7 @@ const Index = () => {
 
             <Card className="overflow-hidden">
               <img 
-                src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/files/9bfdd46d-8583-4567-b952-67284bd6c94d.jpg"
+                src="https://cdn.poehali.dev/files/f3a36fe9-687f-472f-8975-05956c9827c2.jpg"
                 alt="Закупщик" 
                 className="w-full h-80 object-cover"
               />
