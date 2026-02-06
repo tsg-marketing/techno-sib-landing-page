@@ -29,7 +29,7 @@ import {
 const Index = () => {
   const [formData, setFormData] = useState({ name: '', phone: '' });
   const [agreed, setAgreed] = useState(false);
-  const [filterCategory, setFilterCategory] = useState('all');
+  const [catalogTab, setCatalogTab] = useState<'mincers' | 'cutters' | 'grinders'>('mincers');
   const [filterBrand, setFilterBrand] = useState('all');
   const [filterPower, setFilterPower] = useState('all');
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -87,10 +87,12 @@ const Index = () => {
   ));
 
   const filteredCatalogProducts = catalogProducts.filter(product => {
-    if (filterCategory !== 'all') {
-      const categoryId = filterCategory === '220' ? 220 : 226;
-      if (product.category_id !== categoryId) return false;
-    }
+    let categoryId;
+    if (catalogTab === 'mincers') categoryId = 220;
+    else if (catalogTab === 'cutters') categoryId = 226;
+    else if (catalogTab === 'grinders') categoryId = 220;
+    
+    if (product.category_id !== categoryId) return false;
 
     if (filterBrand !== 'all') {
       const brandParam = product.params?.find((p: any) => p.name === 'Бренд');
@@ -431,13 +433,7 @@ const Index = () => {
         </div>
       </header>
 
-      <div className="bg-accent text-accent-foreground py-2">
-        <div className="container mx-auto px-4">
-          <div className="text-center text-sm font-semibold">
-            📍 Демозалы: Москва и Новосибирск
-          </div>
-        </div>
-      </div>
+
 
       <section className="relative py-20 md:py-32 bg-gradient-to-br from-secondary via-background to-secondary overflow-hidden">
         <div className="container mx-auto px-4">
@@ -480,11 +476,11 @@ const Index = () => {
                 </div>
                 <div className="relative min-h-[400px] lg:min-h-[600px] bg-black">
                   <iframe
-                    src="https://rutube.ru/play/embed/e9f5748185b428a295be966c7cbb4e1e"
+                    src="https://rutube.ru/play/embed/e9f5748185b428a295be966c7cbb4e1e?autoplay=1&mute=1"
                     frameBorder="0"
                     allow="clipboard-write; autoplay"
                     allowFullScreen
-                    className="absolute inset-0 w-full h-full"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
               </div>
@@ -584,8 +580,8 @@ const Index = () => {
                 />
               </div>
               <CardContent className="p-6">
-                <h3 className="font-bold text-xl mb-3">Пакет документов под тендер</h3>
-                <p className="text-muted-foreground text-base">При необходимости соберём пакет документов под тендер и дадим 2–3 альтернативы по бюджету и срокам</p>
+                <h3 className="font-bold text-2xl mb-4">Пакет документов под тендер</h3>
+                <p className="text-muted-foreground text-lg">При необходимости соберём пакет документов под тендер и дадим 2–3 альтернативы по бюджету и срокам</p>
               </CardContent>
             </Card>
             <Card className="hover-scale overflow-hidden">
@@ -597,8 +593,8 @@ const Index = () => {
                 />
               </div>
               <CardContent className="p-6">
-                <h3 className="font-bold text-xl mb-3">Подбор комплекта для новых цехов</h3>
-                <p className="text-muted-foreground text-base">Для новых цехов бесплатно сделаем подбор комплекта и дорожную карту запуска</p>
+                <h3 className="font-bold text-2xl mb-4">Подбор комплекта для новых цехов</h3>
+                <p className="text-muted-foreground text-lg">Для новых цехов бесплатно сделаем подбор комплекта и дорожную карту запуска</p>
               </CardContent>
             </Card>
             <Card className="hover-scale overflow-hidden">
@@ -610,8 +606,8 @@ const Index = () => {
                 />
               </div>
               <CardContent className="p-6">
-                <h3 className="font-bold text-xl mb-3">Гарантия 12 месяцев</h3>
-                <p className="text-muted-foreground text-base">Полная гарантия на оборудование сроком 12 месяцев с момента запуска</p>
+                <h3 className="font-bold text-2xl mb-4">Гарантия 12 месяцев</h3>
+                <p className="text-muted-foreground text-lg">Полная гарантия на оборудование сроком 12 месяцев с момента запуска</p>
               </CardContent>
             </Card>
             <Card className="hover-scale overflow-hidden">
@@ -623,41 +619,13 @@ const Index = () => {
                 />
               </div>
               <CardContent className="p-6">
-                <h3 className="font-bold text-lg mb-3">Доставка по всей России</h3>
-                <p className="text-muted-foreground text-sm">Доставка по все России до терминала транспортной компании или Вашего производства</p>
+                <h3 className="font-bold text-2xl mb-4">Доставка по всей России</h3>
+                <p className="text-muted-foreground text-lg">Доставка по все России до терминала транспортной компании или Вашего производства</p>
               </CardContent>
             </Card>
           </div>
         </div>
       </section>
-
-      <section id="advantages" className="py-20 bg-secondary">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Преимущества компании Техно-Сиб как поставщика качественного оборудования для мясного производства
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {advantages.map((advantage, index) => (
-              <Card key={index} className="hover-scale overflow-hidden">
-                <div className="h-64 overflow-hidden">
-                  <img
-                    src={advantage.image}
-                    alt={advantage.text}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardContent className="p-6 text-center">
-                  <p className="text-lg leading-relaxed font-medium">{advantage.text}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-
 
       <section id="catalog" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
@@ -666,17 +634,32 @@ const Index = () => {
             <p className="text-xl text-muted-foreground mb-8">
               Подберите модель по типу и производительности
             </p>
+            
+            <div className="flex justify-center gap-2 mb-8">
+              <Button
+                size="lg"
+                onClick={() => setCatalogTab('mincers')}
+                className={catalogTab === 'mincers' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}
+              >
+                Промышленные мясорубки
+              </Button>
+              <Button
+                size="lg"
+                onClick={() => setCatalogTab('cutters')}
+                className={catalogTab === 'cutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}
+              >
+                Куттеры
+              </Button>
+              <Button
+                size="lg"
+                onClick={() => setCatalogTab('grinders')}
+                className={catalogTab === 'grinders' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}
+              >
+                Волчки
+              </Button>
+            </div>
+
             <div className="flex flex-wrap justify-center gap-4">
-              <Select value={filterCategory} onValueChange={setFilterCategory}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Категория" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Все категории</SelectItem>
-                  <SelectItem value="220">Волчки/Мясорубки</SelectItem>
-                  <SelectItem value="226">Куттеры</SelectItem>
-                </SelectContent>
-              </Select>
               <Select value={filterBrand} onValueChange={setFilterBrand}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Бренд" />
@@ -733,7 +716,7 @@ const Index = () => {
                     <div className="mt-auto space-y-2">
                       <Button 
                         size="lg"
-                        className="w-full bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-4" 
+                        className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base px-8 py-4" 
                         onClick={() => openProductDetails(product)}
                       >
                         Смотреть подробнее
@@ -741,7 +724,7 @@ const Index = () => {
                       <Button 
                         size="lg"
                         variant="outline"
-                        className="w-full bg-primary hover:bg-primary/90 px-8 py-4" 
+                        className="w-full bg-secondary hover:bg-secondary/80 text-foreground border-2 border-accent font-bold text-base px-8 py-4" 
                         onClick={() => openModal('Запросить КП')}
                       >
                         Запросить КП
@@ -754,6 +737,36 @@ const Index = () => {
           )}
         </div>
       </section>
+
+      <section id="advantages" className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 animate-fade-in">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              Преимущества компании Техно-Сиб как поставщика качественного оборудования для мясного производства
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+            {advantages.map((advantage, index) => (
+              <Card key={index} className="hover-scale overflow-hidden">
+                <div className="h-64 overflow-hidden">
+                  <img
+                    src={advantage.image}
+                    alt={advantage.text}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <CardContent className="p-6 text-center">
+                  <p className="text-lg leading-relaxed font-medium">{advantage.text}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+
+
 
       <section className="py-20">
         <div className="container mx-auto px-4">
