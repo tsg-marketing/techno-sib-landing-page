@@ -123,12 +123,27 @@ def handler(event, context):
                 if len(params_preview) < 5:
                     params_preview.append(param_obj)
             
+            # Парсим и очищаем цену
+            price_value = 0
+            if price is not None:
+                price_text = price.text.strip()
+                # Убираем "от" и пробелы
+                price_text = price_text.replace('от', '').replace(' ', '').strip()
+                try:
+                    price_value = float(price_text)
+                except ValueError:
+                    price_value = 0
+            
+            # Фильтруем товары дешевле 300 000 руб
+            if price_value < 300000:
+                continue
+            
             product = {
                 'id': offer_id,
                 'category_id': category_id,
                 'category_name': categories.get(category_id, ''),
                 'name': name.text if name is not None else '',
-                'price': float(price.text) if price is not None else 0,
+                'price': price_value,
                 'picture': picture.text if picture is not None else '',
                 'additional_images': additional_images,
                 'description': description.text if description is not None else '',
