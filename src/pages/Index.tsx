@@ -45,6 +45,7 @@ const Index = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Загружаем каталог при монтировании компонента
   useEffect(() => {
@@ -399,8 +400,8 @@ const Index = () => {
       <header className="sticky top-0 z-50 bg-primary text-primary-foreground shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-            <div className="flex items-center gap-12">
-              <img src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/ff23bd6f-4714-405e-a0e1-1a2113cb8aa6.jpg" alt="Техно-Сиб" className="h-12" />
+            <div className="flex items-center gap-4 lg:gap-12">
+              <img src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/ff23bd6f-4714-405e-a0e1-1a2113cb8aa6.jpg" alt="Техно-Сиб" className="h-8 md:h-10 lg:h-12" />
               <nav className="hidden lg:flex items-center gap-6">
                 <button onClick={() => scrollToSection('equipment')} className="hover:text-accent transition-colors">
                   Оборудование
@@ -417,21 +418,62 @@ const Index = () => {
                 <button onClick={() => scrollToSection('segments')} className="hover:text-accent transition-colors">
                   Квиз
                 </button>
-                <button onClick={() => scrollToSection('advantages')} className="hover:text-accent transition-colors">
-                  Сервис
+                <button onClick={() => scrollToSection('about')} className="hover:text-accent transition-colors">
+                  О компании
                 </button>
                 <button onClick={() => scrollToSection('contacts')} className="hover:text-accent transition-colors">
                   Контакты
                 </button>
               </nav>
             </div>
-            <div className="flex flex-col items-end gap-2">
+            <div className="hidden lg:flex flex-col items-end gap-2">
               <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold" onClick={() => openModal('Получить КП за 24 часа')}>
                 Получить КП за 24 часа
               </Button>
               <div className="text-sm font-semibold">8-800-533-82-68</div>
             </div>
+            <div className="flex lg:hidden items-center gap-2">
+              <a href="tel:88005338268" className="text-xs md:text-sm font-semibold whitespace-nowrap">8-800-533-82-68</a>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="lg:hidden text-primary-foreground hover:bg-primary-foreground/10"
+              >
+                <Icon name={mobileMenuOpen ? "X" : "Menu"} className="w-6 h-6" />
+              </Button>
+            </div>
           </div>
+          {mobileMenuOpen && (
+            <div className="lg:hidden py-4 border-t border-primary-foreground/20 animate-in slide-in-from-top">
+              <nav className="flex flex-col gap-4">
+                <button onClick={() => { scrollToSection('equipment'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                  Оборудование
+                </button>
+                <button onClick={() => { scrollToSection('advantages'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                  Преимущества
+                </button>
+                <button onClick={() => { scrollToSection('catalog'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                  Модели
+                </button>
+                <button onClick={() => { scrollToSection('videos'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                  Видео
+                </button>
+                <button onClick={() => { scrollToSection('segments'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                  Квиз
+                </button>
+                <button onClick={() => { scrollToSection('about'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                  О компании
+                </button>
+                <button onClick={() => { scrollToSection('contacts'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                  Контакты
+                </button>
+                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold mt-2" onClick={() => { openModal('Получить КП за 24 часа'); setMobileMenuOpen(false); }}>
+                  Получить КП за 24 часа
+                </Button>
+              </nav>
+            </div>
+          )}
         </div>
       </header>
 
