@@ -484,13 +484,11 @@ const Index = () => {
                       </div>
                     </>
                   ) : (
-                    <iframe
-                      src="https://rutube.ru/play/embed/e9f5748185b428a295be966c7cbb4e1e/?p=bVRCNrNe8t8&autoplay=1"
-                      frameBorder="0"
-                      allow="clipboard-write; autoplay"
-                      allowFullScreen
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full min-w-full min-h-full"
-                      style={{ aspectRatio: '16/9' }}
+                    <video
+                      src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/DRB%20JR-120%20%D0%92%D0%BE%D0%BB%D1%87%D0%BE%D0%BA%20%D0%A2%D0%A1%D0%93.mp4"
+                      controls
+                      autoPlay
+                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-contain"
                     />
                   )}
                 </div>
@@ -690,7 +688,24 @@ const Index = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredCatalogProducts.map((product) => (
                 <Card key={product.id} className="hover-scale overflow-hidden flex flex-col">
-                  <img src={product.picture} alt={product.name} className="w-full h-56 object-contain bg-secondary" />
+                  {product.additional_images && product.additional_images.length > 0 ? (
+                    <div className="relative w-full h-56 bg-secondary">
+                      <img 
+                        src={product.additional_images[0] || product.picture} 
+                        alt={product.name} 
+                        className="w-full h-full object-contain"
+                      />
+                      {product.additional_images.length > 1 && (
+                        <>
+                          <div className="absolute bottom-2 right-2 bg-black/60 text-white px-2 py-1 rounded text-xs">
+                            +{product.additional_images.length - 1} фото
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ) : (
+                    <img src={product.picture} alt={product.name} className="w-full h-56 object-contain bg-secondary" />
+                  )}
                   <CardContent className="p-6 flex-1 flex flex-col">
                     <h3 className="text-xl font-bold mb-3 line-clamp-2">{product.name}</h3>
                     <div className="mb-4">
