@@ -42,7 +42,7 @@ def handler(event, context):
             categories[cat_id] = category.text
         
         products = []
-        target_categories = [220, 226, 457]
+        target_categories = [220, 221, 226, 457]
         
         for offer in shop.findall('.//offer'):
             offer_id = offer.get('id')
@@ -65,12 +65,15 @@ def handler(event, context):
             params_preview = []
             params_full = []
             
-            priority_params = ['Производительность (кг/ч)', 'Мощность (Вт)', 'Бренд']
+            excluded_params = ['Картинки товара', 'Видео (ссылка)']
             
             for param in offer.findall('param'):
                 param_name = param.get('name')
                 param_value = param.text
                 param_unit = param.get('unit', '')
+                
+                if param_name in excluded_params:
+                    continue
                 
                 param_obj = {
                     'name': param_name,
@@ -81,10 +84,8 @@ def handler(event, context):
                 params.append(param_obj)
                 params_full.append(param_obj)
                 
-                if param_name in priority_params:
+                if len(params_preview) < 5:
                     params_preview.append(param_obj)
-            
-            params_preview.sort(key=lambda x: priority_params.index(x['name']) if x['name'] in priority_params else 999)
             
             product = {
                 'id': offer_id,
@@ -95,7 +96,7 @@ def handler(event, context):
                 'picture': picture.text if picture is not None else '',
                 'description': description.text if description is not None else '',
                 'params': params,
-                'params_preview': params_preview[:3],
+                'params_preview': params_preview[:5],
                 'params_full': params_full
             }
             

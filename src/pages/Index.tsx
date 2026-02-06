@@ -29,9 +29,8 @@ import {
 const Index = () => {
   const [formData, setFormData] = useState({ name: '', phone: '' });
   const [agreed, setAgreed] = useState(false);
-  const [catalogTab, setCatalogTab] = useState<'mincers' | 'cutters' | 'grinders'>('mincers');
+  const [catalogTab, setCatalogTab] = useState<'mincers' | 'cutters'>('mincers');
   const [filterBrand, setFilterBrand] = useState('all');
-  const [filterPower, setFilterPower] = useState('all');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<string[]>(Array(6).fill(''));
   const [showModal, setShowModal] = useState(false);
@@ -84,23 +83,13 @@ const Index = () => {
   ));
 
   const filteredCatalogProducts = catalogProducts.filter(product => {
-    const allowedCategories = catalogTab === 'cutters' ? [226, 457] : [220];
+    const allowedCategories = catalogTab === 'cutters' ? [226, 457] : [220, 221];
     
     if (!allowedCategories.includes(product.category_id)) return false;
 
     if (filterBrand !== 'all') {
       const brandParam = product.params?.find((p: any) => p.name === 'Бренд');
       if (!brandParam || brandParam.value !== filterBrand) return false;
-    }
-
-    if (filterPower !== 'all') {
-      const powerParam = product.params?.find((p: any) => p.name === 'Мощность (Вт)');
-      if (powerParam) {
-        const power = parseInt(powerParam.value);
-        if (filterPower === 'low' && power >= 5000) return false;
-        if (filterPower === 'medium' && (power < 5000 || power >= 10000)) return false;
-        if (filterPower === 'high' && power < 10000) return false;
-      }
     }
 
     return true;
@@ -636,7 +625,7 @@ const Index = () => {
                 onClick={() => setCatalogTab('mincers')}
                 className={catalogTab === 'mincers' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}
               >
-                Промышленные мясорубки
+                Промышленные мясорубки/Волчки
               </Button>
               <Button
                 size="lg"
@@ -644,13 +633,6 @@ const Index = () => {
                 className={catalogTab === 'cutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}
               >
                 Куттеры
-              </Button>
-              <Button
-                size="lg"
-                onClick={() => setCatalogTab('grinders')}
-                className={catalogTab === 'grinders' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}
-              >
-                Волчки
               </Button>
             </div>
 
@@ -664,17 +646,6 @@ const Index = () => {
                   {uniqueBrands.map((brand) => (
                     <SelectItem key={brand} value={brand as string}>{brand}</SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
-              <Select value={filterPower} onValueChange={setFilterPower}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Мощность" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Любая мощность</SelectItem>
-                  <SelectItem value="low">До 5000 Вт</SelectItem>
-                  <SelectItem value="medium">5000-10000 Вт</SelectItem>
-                  <SelectItem value="high">Более 10000 Вт</SelectItem>
                 </SelectContent>
               </Select>
             </div>
