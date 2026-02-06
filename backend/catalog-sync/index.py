@@ -100,7 +100,13 @@ def parse_product(offer):
         # Цена
         price = offer.find('price')
         if price is not None:
-            product['price'] = float(price.text)
+            price_text = price.text.strip()
+            # Убираем "от" и пробелы
+            price_text = price_text.replace('от', '').replace(' ', '').strip()
+            try:
+                product['price'] = float(price_text)
+            except ValueError:
+                product['price'] = 0
         
         # Валюта
         currency = offer.find('currencyId')
