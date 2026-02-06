@@ -1002,6 +1002,94 @@ const Index = () => {
         </div>
       </section>
 
+      <section id="about" className="py-20 bg-gradient-to-b from-secondary to-background">
+        <div className="container mx-auto px-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">О компании ТЕХНО-СИБ</h2>
+
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <Card className="hover-scale text-center p-6">
+              <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="Calendar" className="w-8 h-8 text-accent" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">25 лет на рынке</h3>
+              <p className="text-muted-foreground">Опыт работы с 2001 года</p>
+            </Card>
+
+            <Card className="hover-scale text-center p-6">
+              <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="MapPin" className="w-8 h-8 text-accent" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">2 города</h3>
+              <p className="text-muted-foreground">Офисы в Москве и Новосибирске</p>
+            </Card>
+
+            <Card className="hover-scale text-center p-6">
+              <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="Globe" className="w-8 h-8 text-accent" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Проверенные партнеры</h3>
+              <p className="text-muted-foreground">Из Европы, России и Китая</p>
+            </Card>
+          </div>
+
+          <Card className="p-8 md:p-12 shadow-lg">
+            <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+              Компания <strong className="text-foreground">«Техно-Сиб»</strong> — надежный поставщик и партнер в сфере профессионального пищевого и фасовочно-упаковочного оборудования. Мы работаем с 2001 года и уже 25 лет помогаем предприятиям эффективно оснащать производства и склады пищевым и упаковочным оборудованием, предоставляем сервисное обслуживание, а также реализуем упаковочные и расходные материалы.
+            </p>
+
+            <div className="border-l-4 border-accent bg-accent/5 p-6 my-6">
+              <p className="text-lg font-medium text-foreground">
+                Мы сотрудничаем с ведущими заводами-производителями Европы, России и Китая, подбирая решения под задачи и бюджет клиента.
+              </p>
+            </div>
+
+            <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+              Собственные офисы продаж, склады, сервисная служба и отлаженная логистика в Москве и Новосибирске позволяют нам оперативно выполнять поставки и поддерживать оборудование на территории России и стран СНГ.
+            </p>
+
+            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+              Экспертиза наших специалистов помогает решать задачи любого уровня сложности — от подбора единичной позиции до комплексного оснащения. <strong className="text-foreground">«Техно-Сиб»</strong> всегда предложит оптимальное решение для вашего бизнеса и обеспечит надежную поддержку на всех этапах работы.
+            </p>
+
+            <div className="border-t border-border pt-8">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="flex gap-3">
+                  <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-foreground mb-1">Комплексные решения</h4>
+                    <p className="text-muted-foreground">От подбора оборудования до сервисного обслуживания</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-foreground mb-1">Быстрая доставка</h4>
+                    <p className="text-muted-foreground">Собственная логистика по всей России и СНГ</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-foreground mb-1">Сервисная поддержка</h4>
+                    <p className="text-muted-foreground">Гарантийное и постгарантийное обслуживание</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-foreground mb-1">Экспертная консультация</h4>
+                    <p className="text-muted-foreground">Помощь в выборе оптимального решения</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
       <section id="faq" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in">
