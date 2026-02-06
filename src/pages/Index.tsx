@@ -1005,31 +1005,6 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Наши клиенты</h2>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {segments.map((segment, index) => (
-              <Card key={index} className="hover-scale overflow-hidden">
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={segment.image}
-                    alt={segment.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardContent className="p-6 text-center">
-                  <h3 className="text-xl font-semibold mb-2">{segment.title}</h3>
-                  <p className="text-base text-muted-foreground">{segment.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section id="faq" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in">
