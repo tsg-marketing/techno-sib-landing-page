@@ -197,7 +197,7 @@ const Index = () => {
       text: 'Прямые поставки с заводов — фиксируем комплектацию и сроки',
     },
     {
-      image: 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/files/7256c038-3d31-4484-a7ac-1acb394c7254.jpg',
+      image: 'https://cdn.poehali.dev/files/75a90c8e-cf4d-4083-9f9d-46ee193294e9.jpg',
       text: 'Демозалы МСК/НСК — покажем узлы и обслуживание',
     },
     {
