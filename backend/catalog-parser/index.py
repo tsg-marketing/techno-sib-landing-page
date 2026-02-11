@@ -149,7 +149,7 @@ def handler(event, context):
                 'category_id': category_id,
                 'category_name': categories.get(category_id, ''),
                 'name': name.text if name is not None else '',
-                'price': price_value if price_value is not None else 0,
+                'price': price_value,
                 'picture': picture.text if picture is not None else '',
                 'additional_images': additional_images,
                 'description': description.text if description is not None else '',
