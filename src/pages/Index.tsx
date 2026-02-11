@@ -502,8 +502,8 @@ const Index = () => {
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="absolute inset-0 lg:hidden">
                   <img
-                    src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/bf49173c-0ba7-47fa-ae49-d0d97a744ba2.png"
-                    alt="Производственный цех"
+                    src="https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg"
+                    alt="Промышленная мясорубка"
                     className="w-full h-full object-cover opacity-20"
                   />
                 </div>
@@ -543,8 +543,8 @@ const Index = () => {
                 </div>
                 <div className="relative min-h-[400px] lg:min-h-[600px] overflow-hidden hidden lg:block">
                   <img
-                    src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/bf49173c-0ba7-47fa-ae49-d0d97a744ba2.png"
-                    alt="Производственный цех"
+                    src="https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg"
+                    alt="Промышленная мясорубка"
                     className="w-full h-full object-cover"
                   />
                 </div>
