@@ -721,19 +721,7 @@ const Index = () => {
               </Button>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-4">
-              <Select value={filterBrand} onValueChange={setFilterBrand}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Бренд" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Все бренды</SelectItem>
-                  {uniqueBrands.map((brand) => (
-                    <SelectItem key={brand} value={brand as string}>{brand}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+
           </div>
           {catalogLoading ? (
             <div className="text-center py-12">
