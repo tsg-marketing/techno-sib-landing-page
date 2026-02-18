@@ -31,6 +31,7 @@ const Index = () => {
   const [agreed, setAgreed] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
+  const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [phoneError, setPhoneError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [catalogTab, setCatalogTab] = useState<'mincers' | 'cutters' | 'blockcutters'>('mincers');
@@ -252,7 +253,9 @@ const Index = () => {
       setFormData({ name: '', phone: '', email: '' });
       setAgreed(false);
       setQuizAnswers(Array(6).fill(''));
-      setTimeout(() => { setFormSuccess(false); setShowModal(false); }, 3000);
+      setShowModal(false);
+      setShowSuccessDialog(true);
+      setTimeout(() => { setFormSuccess(false); }, 3000);
     } catch (err) {
       console.error('Form submit error:', err);
     } finally {
@@ -1711,6 +1714,25 @@ const Index = () => {
                 </div>
               </>
             )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+        <DialogContent className="sm:max-w-md text-center">
+          <div className="flex flex-col items-center gap-4 py-4">
+            <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
+              <Icon name="Check" size={32} className="text-green-600" />
+            </div>
+            <DialogHeader>
+              <DialogTitle className="text-xl">Благодарим за обращение!</DialogTitle>
+            </DialogHeader>
+            <p className="text-muted-foreground">
+              Благодарим за обращение в компанию «Техно-Сиб». Менеджер свяжется с Вами в ближайшее время в рабочие часы.
+            </p>
+            <Button onClick={() => setShowSuccessDialog(false)} className="mt-2">
+              Закрыть
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
