@@ -180,6 +180,9 @@ const Index = () => {
           page_url: window.location.href,
         }),
       });
+      if (typeof window !== 'undefined' && (window as any).ym) {
+        (window as any).ym(106887780, 'reachGoal', 'send_form');
+      }
       setFormSuccess(true);
       setFormData({ name: '', phone: '', email: '' });
       setAgreed(false);
@@ -1406,8 +1409,30 @@ const Index = () => {
             <div>
               <h3 className="font-semibold mb-4">Контакты</h3>
               <div className="space-y-2 text-sm opacity-90">
-                <div>8-800-533-82-68</div>
-                <div>info@t-sib.ru</div>
+                <div>
+                  <a 
+                    href="tel:88005338268" 
+                    onClick={() => {
+                      if (typeof window !== 'undefined' && (window as any).ym) {
+                        (window as any).ym(106887780, 'reachGoal', 'phone_click');
+                      }
+                    }}
+                  >
+                    8-800-533-82-68
+                  </a>
+                </div>
+                <div>
+                  <a 
+                    href="mailto:info@t-sib.ru"
+                    onClick={() => {
+                      if (typeof window !== 'undefined' && (window as any).ym) {
+                        (window as any).ym(106887780, 'reachGoal', 'click_email');
+                      }
+                    }}
+                  >
+                    info@t-sib.ru
+                  </a>
+                </div>
                 <div>Демозалы: Москва и Новосибирск</div>
               </div>
             </div>
