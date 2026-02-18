@@ -31,6 +31,8 @@ const Index = () => {
   const [agreed, setAgreed] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [catalogTab, setCatalogTab] = useState<'mincers' | 'cutters' | 'blockcutters'>('mincers');
   const [filterBrand, setFilterBrand] = useState('all');
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -145,6 +147,49 @@ const Index = () => {
     setShowModal(false);
     setFormData({ name: '', phone: '', email: '' });
     setAgreed(false);
+    setPhoneError('');
+    setEmailError('');
+  };
+
+  const validatePhone = (phone: string): boolean => {
+    const cleaned = phone.replace(/\D/g, '');
+    if (cleaned.length === 0) return true;
+    if (cleaned.length !== 11) {
+      setPhoneError('Номер должен содержать 11 цифр');
+      return false;
+    }
+    if (cleaned[0] !== '7') {
+      setPhoneError('Номер должен начинаться с +7');
+      return false;
+    }
+    setPhoneError('');
+    return true;
+  };
+
+  const validateEmail = (email: string): boolean => {
+    if (email.trim() === '') {
+      setEmailError('');
+      return true;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError('Введите корректный email');
+      return false;
+    }
+    setEmailError('');
+    return true;
+  };
+
+  const handlePhoneChange = (value: string) => {
+    setFormData({ ...formData, phone: value });
+    if (value.trim()) validatePhone(value);
+    else setPhoneError('');
+  };
+
+  const handleEmailChange = (value: string) => {
+    setFormData({ ...formData, email: value });
+    if (value.trim()) validateEmail(value);
+    else setEmailError('');
   };
 
   const getUtmFromCookies = (): Record<string, string> => {
@@ -160,6 +205,8 @@ const Index = () => {
 
   const submitForm = async (formTitle: string) => {
     if (!formData.phone.trim()) return;
+    if (!validatePhone(formData.phone)) return;
+    if (formData.email.trim() && !validateEmail(formData.email)) return;
     setFormLoading(true);
     const quizData: Record<string, string> = {};
     const questions = ['Что вы производите?', 'Какой объем в смену (кг)?', 'Когда нужно?', 'Какой бюджет?', 'Нужна ли помощь в монтаже и запуске?'];
@@ -1093,10 +1140,11 @@ const Index = () => {
                         id="quiz-phone"
                         type="tel"
                         placeholder="+7 (___) ___-__-__"
-                        className="mt-2"
+                        className={`mt-2 ${phoneError ? 'border-red-500' : ''}`}
                         value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        onChange={(e) => handlePhoneChange(e.target.value)}
                       />
+                      {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
                     </div>
                     <div>
                       <Label htmlFor="quiz-email">Email</Label>
@@ -1104,10 +1152,11 @@ const Index = () => {
                         id="quiz-email"
                         type="email"
                         placeholder="email@example.com"
-                        className="mt-2"
+                        className={`mt-2 ${emailError ? 'border-red-500' : ''}`}
                         value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        onChange={(e) => handleEmailChange(e.target.value)}
                       />
+                      {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
                     </div>
                     <div className="flex items-start gap-2">
                       <Checkbox 
@@ -1353,10 +1402,11 @@ const Index = () => {
                     id="request-phone"
                     type="tel"
                     placeholder="+7 (___) ___-__-__"
-                    className="mt-2 text-lg p-6"
+                    className={`mt-2 text-lg p-6 ${phoneError ? 'border-red-500' : ''}`}
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) => handlePhoneChange(e.target.value)}
                   />
+                  {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
                 </div>
                 <div>
                   <Label htmlFor="request-email" className="text-lg">Email</Label>
@@ -1364,10 +1414,11 @@ const Index = () => {
                     id="request-email"
                     type="email"
                     placeholder="email@example.com"
-                    className="mt-2 text-lg p-6"
+                    className={`mt-2 text-lg p-6 ${emailError ? 'border-red-500' : ''}`}
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) => handleEmailChange(e.target.value)}
                   />
+                  {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
                 </div>
                 <div className="flex items-start gap-3">
                   <Checkbox 
@@ -1461,9 +1512,11 @@ const Index = () => {
                 id="modal-phone"
                 type="tel"
                 placeholder="+7 (___) ___-__-__"
+                className={phoneError ? 'border-red-500' : ''}
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e) => handlePhoneChange(e.target.value)}
               />
+              {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
             </div>
             <div>
               <Label htmlFor="modal-email">Email</Label>
@@ -1471,9 +1524,11 @@ const Index = () => {
                 id="modal-email"
                 type="email"
                 placeholder="email@example.com"
+                className={emailError ? 'border-red-500' : ''}
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) => handleEmailChange(e.target.value)}
               />
+              {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
             </div>
             <div className="flex items-start gap-2">
               <Checkbox id="modal-agree" checked={agreed} onCheckedChange={(checked) => setAgreed(checked as boolean)} />
