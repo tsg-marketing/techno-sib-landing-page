@@ -232,6 +232,7 @@ const Index = () => {
     quizAnswers.forEach((answer, idx) => {
       if (answer && idx < questions.length) quizData[questions[idx]] = answer;
     });
+    const productName = formTitle.startsWith('Запросить КП на ') ? formTitle.replace('Запросить КП на ', '') : '';
     try {
       await fetch('/api/b24-send-lead.php', {
         method: 'POST',
@@ -241,6 +242,7 @@ const Index = () => {
           phone: formData.phone.trim(),
           email: formData.email.trim(),
           form_title: formTitle,
+          product_name: productName,
           quiz_answers: quizData,
           utm: getUtmFromCookies(),
           page_url: window.location.href,
@@ -954,7 +956,7 @@ const Index = () => {
                         size="lg"
                         variant="outline"
                         className="w-full bg-secondary hover:bg-secondary/80 text-foreground border-2 border-accent font-bold text-base px-8 py-4" 
-                        onClick={() => openModal('Запросить КП')}
+                        onClick={() => openModal('Запросить КП на ' + product.name)}
                       >
                         Запросить КП
                       </Button>
