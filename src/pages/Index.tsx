@@ -180,9 +180,27 @@ const Index = () => {
     return true;
   };
 
+  const formatPhone = (input: string): string => {
+    let digits = input.replace(/\D/g, '');
+    if (digits.startsWith('8')) digits = '7' + digits.slice(1);
+    if (!digits.startsWith('7') && digits.length > 0) digits = '7' + digits;
+    digits = digits.slice(0, 11);
+    if (digits.length === 0) return '';
+    let formatted = '+7';
+    if (digits.length > 1) formatted += ' (' + digits.slice(1, 4);
+    if (digits.length >= 4) formatted += ')';
+    if (digits.length > 4) formatted += ' ' + digits.slice(4, 7);
+    if (digits.length > 7) formatted += '-' + digits.slice(7, 9);
+    if (digits.length > 9) formatted += '-' + digits.slice(9, 11);
+    return formatted;
+  };
+
   const handlePhoneChange = (value: string) => {
-    setFormData({ ...formData, phone: value });
-    if (value.trim()) validatePhone(value);
+    const formatted = formatPhone(value);
+    setFormData({ ...formData, phone: formatted });
+    const digits = formatted.replace(/\D/g, '');
+    if (digits.length === 0) { setPhoneError(''); return; }
+    if (digits.length < 11) setPhoneError('Номер должен содержать 11 цифр');
     else setPhoneError('');
   };
 
