@@ -1011,7 +1011,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Подберём волчок/куттер за 3 минуты
+              Подобрать оборудование под Ваши потребности
             </h2>
             <p className="text-xl text-muted-foreground">
               Ответьте на 5 вопросов — получите 3 модели с ценами
@@ -1032,7 +1032,7 @@ const Index = () => {
                 </div>
               </div>
 
-              {currentQuestion < 8 ? (
+              {currentQuestion < 5 ? (
                 <>
                   <h3 className="text-2xl font-bold mb-6">{quizQuestions[currentQuestion].question}</h3>
                   <div className="space-y-3 mb-6">
@@ -1075,10 +1075,7 @@ const Index = () => {
               ) : (
                 <div className="text-center">
                   <Icon name="CheckCircle" className="w-16 h-16 text-accent mx-auto mb-4" />
-                  <h3 className="text-2xl font-bold mb-4">Отлично! Осталось совсем чуть-чуть</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Оставьте контакты, и мы отправим вам подборку из 2-3 моделей с ценами
-                  </p>
+                  <h3 className="text-2xl font-bold mb-4">Оставьте свои контакты. Мы подберем для Вас самый оптимальный вариант оборудования</h3>
                   <form className="space-y-4">
                     <div>
                       <Label htmlFor="quiz-name">Имя *</Label>
