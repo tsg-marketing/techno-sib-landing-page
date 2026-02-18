@@ -27,8 +27,10 @@ import {
 } from '@/components/ui/select';
 
 const Index = () => {
-  const [formData, setFormData] = useState({ name: '', phone: '' });
+  const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
   const [agreed, setAgreed] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
+  const [formSuccess, setFormSuccess] = useState(false);
   const [catalogTab, setCatalogTab] = useState<'mincers' | 'cutters' | 'blockcutters'>('mincers');
   const [filterBrand, setFilterBrand] = useState('all');
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -47,9 +49,13 @@ const Index = () => {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Загружаем каталог при монтировании компонента
   useEffect(() => {
     loadCatalog();
+    const params = new URLSearchParams(window.location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(key => {
+      const val = params.get(key);
+      if (val) document.cookie = `${key}=${encodeURIComponent(val)};path=/;max-age=${30 * 24 * 60 * 60}`;
+    });
   }, []);
 
   const loadCatalog = async () => {
@@ -137,8 +143,53 @@ const Index = () => {
 
   const closeModal = () => {
     setShowModal(false);
-    setFormData({ name: '', phone: '' });
+    setFormData({ name: '', phone: '', email: '' });
     setAgreed(false);
+  };
+
+  const getUtmFromCookies = (): Record<string, string> => {
+    const utm: Record<string, string> = {};
+    document.cookie.split(';').forEach(c => {
+      const [key, value] = c.trim().split('=');
+      if (['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].includes(key)) {
+        utm[key] = decodeURIComponent(value);
+      }
+    });
+    return utm;
+  };
+
+  const submitForm = async (formTitle: string) => {
+    if (!formData.phone.trim()) return;
+    setFormLoading(true);
+    const quizData: Record<string, string> = {};
+    const questions = ['Что вы производите?', 'Какой объем в смену (кг)?', 'Когда нужно?', 'Какой бюджет?', 'Нужна ли помощь в монтаже и запуске?'];
+    quizAnswers.forEach((answer, idx) => {
+      if (answer && idx < questions.length) quizData[questions[idx]] = answer;
+    });
+    try {
+      await fetch('/api/b24-send-lead.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          phone: formData.phone.trim(),
+          email: formData.email.trim(),
+          form_title: formTitle,
+          quiz_answers: quizData,
+          utm: getUtmFromCookies(),
+          page_url: window.location.href,
+        }),
+      });
+      setFormSuccess(true);
+      setFormData({ name: '', phone: '', email: '' });
+      setAgreed(false);
+      setQuizAnswers(Array(6).fill(''));
+      setTimeout(() => { setFormSuccess(false); setShowModal(false); }, 3000);
+    } catch (err) {
+      console.error('Form submit error:', err);
+    } finally {
+      setFormLoading(false);
+    }
   };
 
   const scrollToSection = (id: string) => {
@@ -1047,6 +1098,17 @@ const Index = () => {
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       />
                     </div>
+                    <div>
+                      <Label htmlFor="quiz-email">Email</Label>
+                      <Input
+                        id="quiz-email"
+                        type="email"
+                        placeholder="email@example.com"
+                        className="mt-2"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      />
+                    </div>
                     <div className="flex items-start gap-2">
                       <Checkbox 
                         id="quiz-agree" 
@@ -1054,16 +1116,17 @@ const Index = () => {
                         onCheckedChange={(checked) => setAgreed(checked as boolean)} 
                       />
                       <label htmlFor="quiz-agree" className="text-sm text-muted-foreground cursor-pointer">
-                        Я согласен с <a href="#" className="text-accent underline">политикой конфиденциальности</a>
+                        Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" className="text-accent underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" className="text-accent underline">согласие на обработку персональных данных</a>
                       </label>
                     </div>
                     <Button 
                       type="button"
                       size="lg" 
                       className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
-                      onClick={() => openModal('Получить подборку')}
+                      disabled={formLoading || !formData.phone.trim() || !agreed}
+                      onClick={() => submitForm('Получить подборку (квиз)')}
                     >
-                      Получить подборку
+                      {formLoading ? 'Отправка...' : formSuccess ? 'Отправлено!' : 'Получить подборку'}
                     </Button>
                   </form>
                 </div>
@@ -1295,6 +1358,17 @@ const Index = () => {
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   />
                 </div>
+                <div>
+                  <Label htmlFor="request-email" className="text-lg">Email</Label>
+                  <Input
+                    id="request-email"
+                    type="email"
+                    placeholder="email@example.com"
+                    className="mt-2 text-lg p-6"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                </div>
                 <div className="flex items-start gap-3">
                   <Checkbox 
                     id="request-agree" 
@@ -1302,16 +1376,17 @@ const Index = () => {
                     onCheckedChange={(checked) => setAgreed(checked as boolean)} 
                   />
                   <label htmlFor="request-agree" className="text-base cursor-pointer">
-                    Я согласен с <a href="#" className="text-accent underline">политикой конфиденциальности</a>
+                    Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" className="text-accent underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" className="text-accent underline">согласие на обработку персональных данных</a>
                   </label>
                 </div>
                 <Button 
                   type="button"
                   size="lg" 
                   className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-lg py-6"
-                  onClick={() => openModal('Оставить заявку')}
+                  disabled={formLoading || !formData.phone.trim() || !agreed}
+                  onClick={() => submitForm('Оставить заявку')}
                 >
-                  Отправить заявку
+                  {formLoading ? 'Отправка...' : formSuccess ? 'Отправлено!' : 'Отправить заявку'}
                 </Button>
               </form>
             </Card>
@@ -1348,7 +1423,7 @@ const Index = () => {
           <DialogHeader>
             <DialogTitle>{modalTitle}</DialogTitle>
           </DialogHeader>
-          <form onSubmit={(e) => { e.preventDefault(); }} className="space-y-4">
+          <form onSubmit={(e) => { e.preventDefault(); submitForm(modalTitle); }} className="space-y-4">
             <div>
               <Label htmlFor="modal-name">Имя *</Label>
               <Input
@@ -1368,14 +1443,24 @@ const Index = () => {
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               />
             </div>
+            <div>
+              <Label htmlFor="modal-email">Email</Label>
+              <Input
+                id="modal-email"
+                type="email"
+                placeholder="email@example.com"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+            </div>
             <div className="flex items-start gap-2">
               <Checkbox id="modal-agree" checked={agreed} onCheckedChange={(checked) => setAgreed(checked as boolean)} />
               <label htmlFor="modal-agree" className="text-sm cursor-pointer">
-                Я согласен с <a href="#" className="text-accent underline">политикой конфиденциальности</a>
+                Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" className="text-accent underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" className="text-accent underline">согласие на обработку персональных данных</a>
               </label>
             </div>
-            <Button type="submit" size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold">
-              Отправить
+            <Button type="submit" size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold" disabled={formLoading || !formData.phone.trim() || !agreed}>
+              {formLoading ? 'Отправка...' : formSuccess ? 'Отправлено!' : 'Отправить'}
             </Button>
           </form>
         </DialogContent>
