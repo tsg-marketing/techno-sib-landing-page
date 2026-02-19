@@ -542,28 +542,25 @@ const Index = () => {
             <div className="flex items-center gap-4 lg:gap-12">
               <div className="flex flex-col gap-1">
                 <img src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/ff23bd6f-4714-405e-a0e1-1a2113cb8aa6.jpg" alt="Техно-Сиб" className="h-8 md:h-10 lg:h-12" />
-                <a href="tel:88005338268" className="text-sm lg:hidden font-bold whitespace-nowrap">8-800-533-82-68</a>
+                <a href="tel:88005057684" className="text-sm lg:hidden font-bold whitespace-nowrap">8-800-505-76-84</a>
               </div>
               <nav className="hidden lg:flex items-center gap-6">
-                <button onClick={() => scrollToSection('equipment')} className="hover:text-accent transition-colors">
+                <button onClick={() => scrollToSection('catalog')} className="hover:text-accent transition-colors">
                   Оборудование
                 </button>
                 <button onClick={() => scrollToSection('advantages')} className="hover:text-accent transition-colors">
                   Преимущества
                 </button>
-                <button onClick={() => scrollToSection('catalog')} className="hover:text-accent transition-colors">
-                  Модели
-                </button>
                 <button onClick={() => scrollToSection('videos')} className="hover:text-accent transition-colors">
                   Видео
                 </button>
                 <button onClick={() => scrollToSection('segments')} className="hover:text-accent transition-colors">
-                  Квиз
+                  Подбор
                 </button>
                 <button onClick={() => scrollToSection('about')} className="hover:text-accent transition-colors">
                   О компании
                 </button>
-                <button onClick={() => scrollToSection('contacts')} className="hover:text-accent transition-colors">
+                <button onClick={() => scrollToSection('contact-us')} className="hover:text-accent transition-colors">
                   Контакты
                 </button>
               </nav>
@@ -572,7 +569,8 @@ const Index = () => {
               <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold" onClick={() => openModal('Получить КП за 24 часа')}>
                 Получить КП за 24 часа
               </Button>
-              <div className="text-lg font-bold">8-800-533-82-68</div>
+              <div className="text-lg font-bold">8-800-505-76-84</div>
+              <a href="mailto:volchki@t-sib.ru" className="text-sm opacity-90 hover:opacity-100 transition-opacity">volchki@t-sib.ru</a>
             </div>
             <div className="flex lg:hidden items-center gap-2">
               <Button
@@ -587,25 +585,22 @@ const Index = () => {
           {mobileMenuOpen && (
             <div className="lg:hidden py-4 border-t border-primary-foreground/20 animate-in slide-in-from-top">
               <nav className="flex flex-col gap-4">
-                <button onClick={() => { scrollToSection('equipment'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                <button onClick={() => { scrollToSection('catalog'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
                   Оборудование
                 </button>
                 <button onClick={() => { scrollToSection('advantages'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
                   Преимущества
                 </button>
-                <button onClick={() => { scrollToSection('catalog'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
-                  Модели
-                </button>
                 <button onClick={() => { scrollToSection('videos'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
                   Видео
                 </button>
                 <button onClick={() => { scrollToSection('segments'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
-                  Квиз
+                  Подбор
                 </button>
                 <button onClick={() => { scrollToSection('about'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
                   О компании
                 </button>
-                <button onClick={() => { scrollToSection('contacts'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                <button onClick={() => { scrollToSection('contact-us'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
                   Контакты
                 </button>
                 <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold mt-2" onClick={() => { openModal('Получить КП за 24 часа'); setMobileMenuOpen(false); }}>
@@ -697,11 +692,11 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20">
+      <section id="advantages" className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Наши преимущества
+              Преимущества нашего оборудования
             </h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -1398,6 +1393,49 @@ const Index = () => {
         </div>
       </section>
 
+      <section id="contact-us" className="py-20 bg-secondary">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Связаться с нами</h2>
+            <p className="text-xl text-muted-foreground">Свяжитесь удобным способом или приезжайте в наш демозал</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <Card className="p-6 text-center">
+              <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="Phone" size={24} className="text-accent" />
+              </div>
+              <h3 className="font-bold text-lg mb-2">Телефон</h3>
+              <a href="tel:88005057684" className="text-accent hover:underline font-semibold">8-800-505-76-84</a>
+              <p className="text-sm text-muted-foreground mt-1">Бесплатно по России</p>
+            </Card>
+            <Card className="p-6 text-center">
+              <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="Mail" size={24} className="text-accent" />
+              </div>
+              <h3 className="font-bold text-lg mb-2">Почта</h3>
+              <a href="mailto:volchki@t-sib.ru" className="text-accent hover:underline font-semibold">volchki@t-sib.ru</a>
+              <p className="text-sm text-muted-foreground mt-1">Ответим в течение дня</p>
+            </Card>
+            <Card className="p-6 text-center">
+              <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="MapPin" size={24} className="text-accent" />
+              </div>
+              <h3 className="font-bold text-lg mb-2">Москва</h3>
+              <p className="text-sm">ш. Энтузиастов, д. 56, стр. 32, офис 115</p>
+              <p className="text-sm text-muted-foreground mt-1">Пн-Пт: 09:00–18:00</p>
+            </Card>
+            <Card className="p-6 text-center">
+              <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="MapPin" size={24} className="text-accent" />
+              </div>
+              <h3 className="font-bold text-lg mb-2">Новосибирск</h3>
+              <p className="text-sm">ул. Электрозаводская, 2 к1, офис 304, 314</p>
+              <p className="text-sm text-muted-foreground mt-1">Пн-Пт: 09:00–18:00</p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       <section className="py-20 bg-gradient-to-br from-accent/20 via-background to-accent/10">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
@@ -1482,26 +1520,26 @@ const Index = () => {
               <div className="space-y-2 text-sm opacity-90">
                 <div>
                   <a 
-                    href="tel:88005338268" 
+                    href="tel:88005057684" 
                     onClick={() => {
                       if (typeof window !== 'undefined' && (window as any).ym) {
                         (window as any).ym(106887780, 'reachGoal', 'phone_click');
                       }
                     }}
                   >
-                    8-800-533-82-68
+                    8-800-505-76-84
                   </a>
                 </div>
                 <div>
                   <a 
-                    href="mailto:info@t-sib.ru"
+                    href="mailto:volchki@t-sib.ru"
                     onClick={() => {
                       if (typeof window !== 'undefined' && (window as any).ym) {
                         (window as any).ym(106887780, 'reachGoal', 'click_email');
                       }
                     }}
                   >
-                    info@t-sib.ru
+                    volchki@t-sib.ru
                   </a>
                 </div>
                 <div>Демозалы: Москва и Новосибирск</div>
