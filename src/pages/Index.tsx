@@ -540,9 +540,10 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-4 lg:gap-12">
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-0.5">
                 <img src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/ff23bd6f-4714-405e-a0e1-1a2113cb8aa6.jpg" alt="Техно-Сиб" className="h-8 md:h-10 lg:h-12" />
                 <a href="tel:88005057684" className="text-sm lg:hidden font-bold whitespace-nowrap">8-800-505-76-84</a>
+                <a href="mailto:volchki@t-sib.ru" className="text-xs lg:hidden whitespace-nowrap">volchki@t-sib.ru</a>
               </div>
               <nav className="hidden lg:flex items-center gap-6">
                 <button onClick={() => scrollToSection('catalog')} className="hover:text-accent transition-colors">
@@ -565,12 +566,14 @@ const Index = () => {
                 </button>
               </nav>
             </div>
-            <div className="hidden lg:flex flex-col items-end gap-2">
+            <div className="hidden lg:flex items-center gap-6">
+              <div className="flex flex-col items-end gap-0.5">
+                <a href="tel:88005057684" className="text-lg font-bold hover:text-accent transition-colors">8-800-505-76-84</a>
+                <a href="mailto:volchki@t-sib.ru" className="text-sm hover:text-accent transition-colors">volchki@t-sib.ru</a>
+              </div>
               <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold" onClick={() => openModal('Получить КП за 24 часа')}>
                 Получить КП за 24 часа
               </Button>
-              <div className="text-lg font-bold">8-800-505-76-84</div>
-              <a href="mailto:volchki@t-sib.ru" className="text-sm opacity-90 hover:opacity-100 transition-opacity">volchki@t-sib.ru</a>
             </div>
             <div className="flex lg:hidden items-center gap-2">
               <Button
