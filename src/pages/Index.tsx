@@ -1514,16 +1514,17 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div>
               <img src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/ff23bd6f-4714-405e-a0e1-1a2113cb8aa6.jpg" alt="Техно-Сиб Групп" className="h-12 mb-4" />
-              <p className="text-sm opacity-90">
+              <p className="text-base opacity-90">
                 Поставщик оборудования для мясопереработки
               </p>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Контакты</h3>
-              <div className="space-y-2 text-sm opacity-90">
+              <h3 className="text-xl font-semibold mb-4">Контакты</h3>
+              <div className="space-y-3 text-base">
                 <div>
                   <a 
                     href="tel:88005057684" 
+                    className="text-lg font-bold hover:text-accent transition-colors"
                     onClick={() => {
                       if (typeof window !== 'undefined' && (window as any).ym) {
                         (window as any).ym(106887780, 'reachGoal', 'phone_click');
@@ -1534,18 +1535,24 @@ const Index = () => {
                   </a>
                 </div>
                 <div>
-                  <a 
-                    href="mailto:volchki@t-sib.ru"
-                    onClick={() => {
+                  <button 
+                    className="text-lg hover:text-accent transition-colors cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigator.clipboard.writeText('volchki@t-sib.ru');
+                      const el = e.currentTarget;
+                      const original = el.textContent;
+                      el.textContent = 'Скопировано!';
+                      setTimeout(() => { el.textContent = original; }, 1500);
                       if (typeof window !== 'undefined' && (window as any).ym) {
                         (window as any).ym(106887780, 'reachGoal', 'click_email');
                       }
                     }}
                   >
                     volchki@t-sib.ru
-                  </a>
+                  </button>
                 </div>
-                <div>Демозалы: Москва и Новосибирск</div>
+                <div className="opacity-80">Демозалы: Москва и Новосибирск</div>
               </div>
             </div>
           </div>
