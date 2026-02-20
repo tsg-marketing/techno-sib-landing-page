@@ -819,25 +819,22 @@ const Index = () => {
               Подберите модель по типу и производительности
             </p>
             
-            <div className="flex flex-col sm:flex-row justify-center gap-2 mb-8 px-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8 px-4">
               <Button
-                size="lg"
                 onClick={() => setCatalogTab('mincers')}
-                className={`w-full sm:w-auto ${catalogTab === 'mincers' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
+                className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'mincers' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
               >
                 Мясорубки/Волчки
               </Button>
               <Button
-                size="lg"
                 onClick={() => setCatalogTab('cutters')}
-                className={`w-full sm:w-auto ${catalogTab === 'cutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
+                className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'cutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
               >
                 Куттеры
               </Button>
               <Button
-                size="lg"
                 onClick={() => setCatalogTab('blockcutters')}
-                className={`w-full sm:w-auto ${catalogTab === 'blockcutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
+                className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'blockcutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
               >
                 Блокорезки
               </Button>
