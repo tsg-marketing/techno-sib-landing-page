@@ -547,7 +547,7 @@ const Index = () => {
               </div>
               <nav className="hidden lg:flex items-center gap-6">
                 <button onClick={() => scrollToSection('catalog')} className="hover:text-accent transition-colors">
-                  Оборудование
+                  Каталог
                 </button>
                 <button onClick={() => scrollToSection('advantages')} className="hover:text-accent transition-colors">
                   Преимущества
@@ -1392,6 +1392,88 @@ const Index = () => {
                 </Accordion>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      <section id="warranty" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-14">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Гарантия и доставка</h2>
+            <p className="text-xl text-muted-foreground">Всё, что нужно знать об условиях получения оборудования</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* Гарантия */}
+            <div className="bg-primary/5 border border-primary/15 rounded-2xl p-8 flex flex-col gap-5">
+              <div className="flex items-center gap-4">
+                <div className="bg-primary text-primary-foreground rounded-xl p-3 shrink-0">
+                  <Icon name="ShieldCheck" size={32} />
+                </div>
+                <h3 className="text-2xl font-bold">Гарантия</h3>
+              </div>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Гарантийный срок на оборудование составляет <span className="font-bold text-foreground">12 месяцев</span> с момента передачи товара покупателю.
+              </p>
+            </div>
+
+            {/* Доставка */}
+            <div className="bg-accent/5 border border-accent/20 rounded-2xl p-8 flex flex-col gap-5">
+              <div className="flex items-center gap-4">
+                <div className="bg-accent text-accent-foreground rounded-xl p-3 shrink-0">
+                  <Icon name="Truck" size={32} />
+                </div>
+                <h3 className="text-2xl font-bold">Доставка</h3>
+              </div>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Мы доставляем оборудование <span className="font-bold text-foreground">по всей России</span> через транспортные компании.
+              </p>
+              <ul className="space-y-3">
+                <li className="flex gap-3">
+                  <Icon name="BadgeCheck" size={20} className="text-accent shrink-0 mt-0.5" />
+                  <span className="text-muted-foreground">По желанию клиента — <span className="font-semibold text-foreground">БЕСПЛАТНАЯ доставка</span> до терминала любой транспортной компании в пределах г. Новосибирск.</span>
+                </li>
+                <li className="flex gap-3">
+                  <Icon name="Building2" size={20} className="text-accent shrink-0 mt-0.5" />
+                  <span className="text-muted-foreground">Перевозчики: <span className="font-semibold text-foreground">«Деловые линии», «ПЭК», «СДЭК»</span></span>
+                </li>
+                <li className="flex gap-3">
+                  <Icon name="Clock" size={20} className="text-accent shrink-0 mt-0.5" />
+                  <span className="text-muted-foreground">Сроки поставки зависят от места назначения и выбора перевозчика.</span>
+                </li>
+                <li className="flex gap-3">
+                  <Icon name="CreditCard" size={20} className="text-accent shrink-0 mt-0.5" />
+                  <span className="text-muted-foreground">Оплата доставки осуществляется заказчиком при получении по тарифам перевозчика.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Самовывоз */}
+          <div className="bg-secondary rounded-2xl p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="bg-foreground text-background rounded-xl p-3 shrink-0">
+                <Icon name="MapPin" size={28} />
+              </div>
+              <h3 className="text-2xl font-bold">Самовывоз со склада</h3>
+            </div>
+            <p className="text-muted-foreground text-lg mb-6">Оплаченный товар можно забрать самостоятельно по адресам:</p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl p-5 flex gap-4 items-start shadow-sm">
+                <Icon name="Warehouse" size={22} className="text-primary shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold mb-1">Новосибирск</p>
+                  <p className="text-muted-foreground">ул. Электрозаводская, 2, корпус 5</p>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl p-5 flex gap-4 items-start shadow-sm">
+                <Icon name="Warehouse" size={22} className="text-primary shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold mb-1">Москва</p>
+                  <p className="text-muted-foreground">ш. Энтузиастов, д. 56, стр. 32</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
