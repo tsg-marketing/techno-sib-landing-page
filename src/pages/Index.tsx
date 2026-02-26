@@ -64,7 +64,7 @@ const Index = () => {
   const loadCatalog = async () => {
     try {
       setCatalogLoading(true);
-      const response = await fetch('https://functions.poehali.dev/91d69da5-6c30-42df-b916-1d740ca6830d?refresh=true');
+      const response = await fetch('https://functions.poehali.dev/91d69da5-6c30-42df-b916-1d740ca6830d');
       const data = await response.json();
       console.log('Catalog loaded:', data.products?.length, 'products');
       console.log('Total images found:', data.total_images_found);

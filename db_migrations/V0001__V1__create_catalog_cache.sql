@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS catalog_cache (
+    id SERIAL PRIMARY KEY,
+    products_json TEXT NOT NULL,
+    total INTEGER NOT NULL DEFAULT 0,
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);

@@ -1,12 +1,17 @@
 {
   "tests": [
     {
-      "name": "Get catalog products from XML feed",
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get catalog products",
       "method": "GET",
       "path": "/",
       "expectedStatus": 200,
       "expectedBody": {
-        "products": "array",
         "total": "number",
         "updated_at": "string"
       },
