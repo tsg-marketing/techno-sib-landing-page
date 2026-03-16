@@ -290,18 +290,6 @@ const Index = () => {
     }
   };
 
-  const brands = [
-    { name: 'Gazer', logo: 'https://cdn.poehali.dev/files/9c57a067-b2f0-4c95-8318-012ee50fb944.png' },
-    { name: 'Fatosa', logo: 'https://cdn.poehali.dev/files/b10fe752-f4c0-4ea4-ac80-e7683cd97287.png' },
-    { name: 'Henco', logo: 'https://cdn.poehali.dev/files/84717a41-cef2-4ca7-97ff-5073deb58da1.png' },
-    { name: 'International Clip', logo: 'https://cdn.poehali.dev/files/b6488a7b-a8e0-43f5-96d0-61a1a97d11f7.png' },
-    { name: 'Niro-Tech', logo: 'https://cdn.poehali.dev/files/1fa320d6-e9dc-4e65-be4a-2faf9c602144.png' },
-    { name: 'Nock', logo: 'https://cdn.poehali.dev/files/cac69f33-0c76-4317-a28c-a4f5a515ff40.png' },
-    { name: 'Mainca', logo: 'https://cdn.poehali.dev/files/71242292-f18f-45f1-9258-3d879a366c74.png' },
-    { name: 'Daribo', logo: 'https://cdn.poehali.dev/files/bef4bdb4-44e1-48f9-a01b-4b441157841d.png' },
-    { name: 'ABM', logo: 'https://cdn.poehali.dev/files/c37bd5b5-f492-4141-a154-b651f8bee65d.png' },
-    { name: 'Bomeda', logo: 'https://cdn.poehali.dev/files/52dac093-e152-4fff-8bd4-ffe334a36a35.png' },
-  ];
 
   const problems = [
     {
@@ -676,24 +664,6 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="equipment" className="py-20 bg-secondary">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Оборудование от производителей Европы и Китая</h2>
-          </div>
-          <div className="flex flex-wrap justify-center gap-8 items-center">
-            {brands.map((brand, index) => (
-              <div key={index} className="hover-scale cursor-pointer p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <img 
-                  src={brand.logo} 
-                  alt={brand.name} 
-                  className="h-16 w-auto object-contain"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section id="advantages" className="py-20">
         <div className="container mx-auto px-4">
