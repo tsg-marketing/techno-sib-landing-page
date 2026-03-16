@@ -26,7 +26,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-const Index = () => {
+interface IndexProps {
+  pageType?: 'main' | 'cutter' | 'blokorezka';
+}
+
+const Index = ({ pageType = 'main' }: IndexProps) => {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
   const [agreed, setAgreed] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
@@ -34,7 +38,9 @@ const Index = () => {
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [phoneError, setPhoneError] = useState('');
   const [emailError, setEmailError] = useState('');
-  const [catalogTab, setCatalogTab] = useState<'mincers' | 'cutters' | 'blockcutters'>('mincers');
+  const [catalogTab, setCatalogTab] = useState<'mincers' | 'cutters' | 'blockcutters'>(
+    pageType === 'cutter' ? 'cutters' : pageType === 'blokorezka' ? 'blockcutters' : 'mincers'
+  );
   const [filterBrand, setFilterBrand] = useState('all');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<string[]>(Array(6).fill(''));
@@ -534,15 +540,31 @@ const Index = () => {
                 <a href="mailto:volchki@t-sib.ru" className="text-xs lg:hidden whitespace-nowrap">volchki@t-sib.ru</a>
               </div>
               <nav className="hidden lg:flex items-center gap-6">
+                <div className="relative group">
+                  <button className="hover:text-accent transition-colors flex items-center gap-1">
+                    Каталог
+                    <Icon name="ChevronDown" className="w-4 h-4" />
+                  </button>
+                  <div className="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-xl border py-2 min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                    <a href="/cutter" className="block px-4 py-2 text-foreground hover:bg-accent/10 hover:text-accent transition-colors">
+                      Куттеры
+                    </a>
+                    <a href="/blokorezka" className="block px-4 py-2 text-foreground hover:bg-accent/10 hover:text-accent transition-colors">
+                      Блокорезки
+                    </a>
+                  </div>
+                </div>
                 <button onClick={() => scrollToSection('catalog')} className="hover:text-accent transition-colors">
-                  Каталог
+                  Модели
                 </button>
                 <button onClick={() => scrollToSection('advantages')} className="hover:text-accent transition-colors">
                   Преимущества
                 </button>
-                <button onClick={() => scrollToSection('videos')} className="hover:text-accent transition-colors">
-                  Видео
-                </button>
+                {(pageType === 'main' || pageType === 'blokorezka') && (
+                  <button onClick={() => scrollToSection('videos')} className="hover:text-accent transition-colors">
+                    Видео
+                  </button>
+                )}
                 <button onClick={() => scrollToSection('segments')} className="hover:text-accent transition-colors">
                   Подбор
                 </button>
@@ -576,25 +598,34 @@ const Index = () => {
           {mobileMenuOpen && (
             <div className="lg:hidden py-4 border-t border-primary-foreground/20 animate-in slide-in-from-top">
               <nav className="flex flex-col gap-4">
-                <button onClick={() => { scrollToSection('catalog'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
-                  Оборудование
+                <span className="text-sm font-bold opacity-70 uppercase tracking-wider">Каталог</span>
+                <a href="/cutter" className="hover:text-accent transition-colors pl-4">
+                  Куттеры
+                </a>
+                <a href="/blokorezka" className="hover:text-accent transition-colors pl-4">
+                  Блокорезки
+                </a>
+                <button onClick={() => { scrollToSection('catalog'); setMobileMenuOpen(false); }} className="hover:text-accent transition-colors text-left">
+                  Модели
                 </button>
-                <button onClick={() => { scrollToSection('advantages'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                <button onClick={() => { scrollToSection('advantages'); setMobileMenuOpen(false); }} className="hover:text-accent transition-colors text-left">
                   Преимущества
                 </button>
-                <button onClick={() => { scrollToSection('videos'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
-                  Видео
-                </button>
-                <button onClick={() => { scrollToSection('segments'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                {(pageType === 'main' || pageType === 'blokorezka') && (
+                  <button onClick={() => { scrollToSection('videos'); setMobileMenuOpen(false); }} className="hover:text-accent transition-colors text-left">
+                    Видео
+                  </button>
+                )}
+                <button onClick={() => { scrollToSection('segments'); setMobileMenuOpen(false); }} className="hover:text-accent transition-colors text-left">
                   Подбор
                 </button>
-                <button onClick={() => { scrollToSection('about'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                <button onClick={() => { scrollToSection('about'); setMobileMenuOpen(false); }} className="hover:text-accent transition-colors text-left">
                   О компании
                 </button>
-                <button onClick={() => { scrollToSection('contact-us'); setMobileMenuOpen(false); }} className="text-left hover:text-accent transition-colors py-2">
+                <button onClick={() => { scrollToSection('contact-us'); setMobileMenuOpen(false); }} className="hover:text-accent transition-colors text-left">
                   Контакты
                 </button>
-                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold mt-2" onClick={() => { openModal('Получить КП за 24 часа'); setMobileMenuOpen(false); }}>
+                <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold w-full mt-2" onClick={() => { openModal('Получить КП за 24 часа'); setMobileMenuOpen(false); }}>
                   Получить КП за 24 часа
                 </Button>
               </nav>
@@ -612,36 +643,94 @@ const Index = () => {
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="absolute inset-0 lg:hidden">
                   <img
-                    src="https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg"
-                    alt="Промышленная мясорубка"
+                    src={pageType === 'cutter' ? '/Cutter.jpeg' : pageType === 'blokorezka' ? '/Blokorezka.jpeg' : 'https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg'}
+                    alt={pageType === 'cutter' ? 'Промышленный куттер' : pageType === 'blokorezka' ? 'Промышленная блокорезка' : 'Промышленная мясорубка'}
                     className="w-full h-full object-cover opacity-20"
                   />
                 </div>
                 <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center relative z-10">
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
-                    Промышленные мясорубки, волчки, куттеры и блокорезки
-                  </h1>
-                  <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
-                    Прямые поставки от ведущих европейских и азиатских производителей
-                  </p>
-                  <div className="space-y-4 mb-8">
-                    <div className="flex items-start gap-3">
-                      <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                      <p className="text-lg text-foreground"><strong>От 300 до 10 000 кг/ч</strong> — модели для любых объёмов производства</p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                      <p className="text-lg text-foreground"><strong>Цена от производителя</strong></p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                      <p className="text-lg text-foreground"><strong>Проверяем перед покупкой:</strong> демонстрация работы в шоурумах Москвы и Новосибирска</p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                      <p className="text-lg text-foreground"><strong>Гарантия качества:</strong> пусконаладка, запчасти на складе, техподдержка</p>
-                    </div>
-                  </div>
+                  {pageType === 'cutter' ? (
+                    <>
+                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
+                        Промышленные куттеры
+                      </h1>
+                      <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
+                        Прямые поставки от ведущих европейских и азиатских производителей
+                      </p>
+                      <div className="space-y-4 mb-8">
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Измельчение до 5000 об/мин</strong></p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Вакуумное куттерование</strong> — сохранение цвета, вкуса и увеличение срока годности</p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Объем чаши куттера от 20 до 750 л</strong></p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Нержавеющая сталь</strong> — соответствие требованиям гигиены</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : pageType === 'blokorezka' ? (
+                    <>
+                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
+                        Промышленные блокорезки
+                      </h1>
+                      <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
+                        Прямые поставки от ведущих европейских и азиатских производителей
+                      </p>
+                      <div className="space-y-4 mb-8">
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Работа без предварительной дефростации</strong></p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Производительность до 6000 кг/час</strong>, чистый срез</p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Роторные и гильотинные типы блокорезок</strong></p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Нержавеющая сталь</strong> — соответствие требованиям гигиены</p>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
+                        Промышленные мясорубки, волчки, куттеры и блокорезки
+                      </h1>
+                      <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
+                        Прямые поставки от ведущих европейских и азиатских производителей
+                      </p>
+                      <div className="space-y-4 mb-8">
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>От 300 до 10 000 кг/ч</strong> — модели для любых объёмов производства</p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Цена от производителя</strong></p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Проверяем перед покупкой:</strong> демонстрация работы в шоурумах Москвы и Новосибирска</p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
+                          <p className="text-lg text-foreground"><strong>Гарантия качества:</strong> пусконаладка, запчасти на складе, техподдержка</p>
+                        </div>
+                      </div>
+                    </>
+                  )}
                   <div className="flex flex-wrap gap-4">
                     <Button size="lg" onClick={() => openModal('Подобрать модель')} className="bg-accent hover:bg-accent/90 text-accent-foreground text-lg px-8 py-6">
                       Подобрать модель
@@ -653,8 +742,8 @@ const Index = () => {
                 </div>
                 <div className="relative min-h-[400px] lg:min-h-[600px] overflow-hidden hidden lg:block">
                   <img
-                    src="https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg"
-                    alt="Промышленная мясорубка"
+                    src={pageType === 'cutter' ? '/Cutter.jpeg' : pageType === 'blokorezka' ? '/Blokorezka.jpeg' : 'https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg'}
+                    alt={pageType === 'cutter' ? 'Промышленный куттер' : pageType === 'blokorezka' ? 'Промышленная блокорезка' : 'Промышленная мясорубка'}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -784,31 +873,35 @@ const Index = () => {
       <section id="catalog" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Каталог оборудования</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+              {pageType === 'cutter' ? 'Каталог куттеров' : pageType === 'blokorezka' ? 'Каталог блокорезок' : 'Каталог оборудования'}
+            </h2>
             <p className="text-xl text-muted-foreground mb-8">
               Подберите модель по типу и производительности
             </p>
             
-            <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8 px-4">
-              <Button
-                onClick={() => setCatalogTab('mincers')}
-                className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'mincers' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
-              >
-                Мясорубки/Волчки
-              </Button>
-              <Button
-                onClick={() => setCatalogTab('cutters')}
-                className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'cutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
-              >
-                Куттеры
-              </Button>
-              <Button
-                onClick={() => setCatalogTab('blockcutters')}
-                className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'blockcutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
-              >
-                Блокорезки
-              </Button>
-            </div>
+            {pageType === 'main' && (
+              <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8 px-4">
+                <Button
+                  onClick={() => setCatalogTab('mincers')}
+                  className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'mincers' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
+                >
+                  Мясорубки/Волчки
+                </Button>
+                <Button
+                  onClick={() => setCatalogTab('cutters')}
+                  className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'cutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
+                >
+                  Куттеры
+                </Button>
+                <Button
+                  onClick={() => setCatalogTab('blockcutters')}
+                  className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'blockcutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
+                >
+                  Блокорезки
+                </Button>
+              </div>
+            )}
 
 
           </div>
@@ -1012,35 +1105,61 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="videos" className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-fade-in">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Видео работы оборудования</h2>
-            <p className="text-xl text-muted-foreground">
-              Смотрите, как оборудование справляется с реальными задачами
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {videos.map((video, index) => (
-              <Card key={index} className="hover-scale overflow-hidden">
+      {pageType === 'cutter' ? null : pageType === 'blokorezka' ? (
+        <section id="videos" className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12 animate-fade-in">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Видео работы оборудования</h2>
+              <p className="text-xl text-muted-foreground">
+                Смотрите, как оборудование справляется с реальными задачами
+              </p>
+            </div>
+            <div className="max-w-3xl mx-auto">
+              <Card className="hover-scale overflow-hidden">
                 <div className="relative aspect-video bg-black">
                   <iframe
-                    src={`https://rutube.ru/play/embed/${video.videoId}`}
+                    src="https://rutube.ru/play/embed/0ec91fd62dfaaa041ecd49ad41c83501/"
                     frameBorder="0"
                     allow="clipboard-write; autoplay"
                     allowFullScreen
                     className="absolute inset-0 w-full h-full"
                   />
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{video.title}</h3>
-                  <p className="text-muted-foreground">{video.description}</p>
-                </CardContent>
               </Card>
-            ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        <section id="videos" className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12 animate-fade-in">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Видео работы оборудования</h2>
+              <p className="text-xl text-muted-foreground">
+                Смотрите, как оборудование справляется с реальными задачами
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+              {videos.map((video, index) => (
+                <Card key={index} className="hover-scale overflow-hidden">
+                  <div className="relative aspect-video bg-black">
+                    <iframe
+                      src={`https://rutube.ru/play/embed/${video.videoId}`}
+                      frameBorder="0"
+                      allow="clipboard-write; autoplay"
+                      allowFullScreen
+                      className="absolute inset-0 w-full h-full"
+                    />
+                  </div>
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-semibold mb-2">{video.title}</h3>
+                    <p className="text-muted-foreground">{video.description}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section id="segments" className="py-20 bg-secondary">
         <div className="container mx-auto px-4">
