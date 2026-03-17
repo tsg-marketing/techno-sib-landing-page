@@ -583,8 +583,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 Получить КП
               </Button>
             </div>
-            <div className="flex lg:hidden items-center gap-3">
-              <a href="tel:88005057684" className="text-xs md:text-sm font-bold whitespace-nowrap hover:text-accent transition-colors">
+            <div className="flex lg:hidden items-center gap-2">
+              <a href="tel:88005057684" className="hidden sm:block text-xs md:text-sm font-bold whitespace-nowrap hover:text-accent transition-colors">
                 8-800-505-76-84
               </a>
               <Button
@@ -653,94 +653,94 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                     className="w-full h-full object-cover opacity-20"
                   />
                 </div>
-                <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center relative z-10">
+                <div className="p-5 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-center relative z-10">
                   {pageType === 'cutter' ? (
                     <>
-                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
+                      <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
                         Промышленные куттеры
                       </h1>
-                      <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
+                      <p className="text-base sm:text-lg md:text-2xl mb-6 sm:mb-8 text-muted-foreground">
                         Прямые поставки от ведущих европейских и азиатских производителей
                       </p>
                       <div className="space-y-4 mb-8">
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Измельчение до 5000 об/мин</strong></p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Измельчение до 5000 об/мин</strong></p>
                         </div>
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Вакуумное куттерование</strong> — сохранение цвета, вкуса и увеличение срока годности</p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Вакуумное куттерование</strong> — сохранение цвета, вкуса и увеличение срока годности</p>
                         </div>
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Объем чаши куттера от 20 до 750 л</strong></p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Объем чаши куттера от 20 до 750 л</strong></p>
                         </div>
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Нержавеющая сталь</strong> — соответствие требованиям гигиены</p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Нержавеющая сталь</strong> — соответствие требованиям гигиены</p>
                         </div>
                       </div>
                     </>
                   ) : pageType === 'blokorezka' ? (
                     <>
-                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
+                      <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
                         Промышленные блокорезки
                       </h1>
-                      <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
+                      <p className="text-base sm:text-lg md:text-2xl mb-6 sm:mb-8 text-muted-foreground">
                         Прямые поставки от ведущих европейских и азиатских производителей
                       </p>
                       <div className="space-y-4 mb-8">
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Работа без предварительной дефростации</strong></p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Работа без предварительной дефростации</strong></p>
                         </div>
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Производительность до 6000 кг/час</strong>, чистый срез</p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Производительность до 6000 кг/час</strong>, чистый срез</p>
                         </div>
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Роторные и гильотинные типы блокорезок</strong></p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Роторные и гильотинные типы блокорезок</strong></p>
                         </div>
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Нержавеющая сталь</strong> — соответствие требованиям гигиены</p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Нержавеющая сталь</strong> — соответствие требованиям гигиены</p>
                         </div>
                       </div>
                     </>
                   ) : (
                     <>
-                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
+                      <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
                         Промышленные мясорубки, волчки, куттеры и блокорезки
                       </h1>
-                      <p className="text-xl md:text-2xl mb-8 text-muted-foreground">
+                      <p className="text-base sm:text-lg md:text-2xl mb-6 sm:mb-8 text-muted-foreground">
                         Прямые поставки от ведущих европейских и азиатских производителей
                       </p>
                       <div className="space-y-4 mb-8">
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>От 300 до 10 000 кг/ч</strong> — модели для любых объёмов производства</p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>От 300 до 10 000 кг/ч</strong> — модели для любых объёмов производства</p>
                         </div>
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Цена от производителя</strong></p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Цена от производителя</strong></p>
                         </div>
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Проверяем перед покупкой:</strong> демонстрация работы в шоурумах Москвы и Новосибирска</p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Проверяем перед покупкой:</strong> демонстрация работы в шоурумах Москвы и Новосибирска</p>
                         </div>
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                          <p className="text-lg text-foreground"><strong>Гарантия качества:</strong> пусконаладка, запчасти на складе, техподдержка</p>
+                          <p className="text-base sm:text-lg text-foreground"><strong>Гарантия качества:</strong> пусконаладка, запчасти на складе, техподдержка</p>
                         </div>
                       </div>
                     </>
                   )}
                   <div className="flex flex-wrap gap-4">
-                    <Button size="lg" onClick={() => openModal('Подобрать модель')} className="bg-accent hover:bg-accent/90 text-accent-foreground text-lg px-8 py-6">
+                    <Button size="lg" onClick={() => openModal('Подобрать модель')} className="bg-accent hover:bg-accent/90 text-accent-foreground text-base sm:text-lg px-5 sm:px-8 py-4 sm:py-6">
                       Подобрать модель
                     </Button>
-                    <Button size="lg" onClick={() => openModal('Записаться в демозал')} className="border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6 font-semibold">
+                    <Button size="lg" onClick={() => openModal('Записаться в демозал')} className="border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 text-base sm:text-lg px-5 sm:px-8 py-4 sm:py-6 font-semibold">
                       Записаться в демозал
                     </Button>
                   </div>
@@ -775,8 +775,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   className={`w-full h-full ${pageType === 'cutter' || pageType === 'blokorezka' ? 'object-contain p-2' : 'object-cover'}`}
                 />
               </div>
-              <CardContent className="p-6">
-                <h3 className="font-bold text-2xl mb-4">{pageType === 'cutter' ? 'Измельчение до 5000 об/мин' : pageType === 'blokorezka' ? 'Производительность до 6000 кг/ч' : 'Производительность от 300 до 10 000 кг/ч'}</h3>
+              <CardContent className="p-4 md:p-6">
+                <h3 className="font-bold text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4">{pageType === 'cutter' ? 'Измельчение до 5000 об/мин' : pageType === 'blokorezka' ? 'Производительность до 6000 кг/ч' : 'Производительность от 300 до 10 000 кг/ч'}</h3>
                 <p className="text-muted-foreground text-lg">Фактическая производительность нашего оборудования соответствует указанному в КП. Подберём модель под ваш объём и потребности</p>
               </CardContent>
             </Card>
@@ -788,8 +788,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <CardContent className="p-6">
-                <h3 className="font-bold text-2xl mb-4">Высокое качество реза</h3>
+              <CardContent className="p-4 md:p-6">
+                <h3 className="font-bold text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4">Высокое качество реза</h3>
                 <p className="text-muted-foreground text-lg">Гарантируем высокое качество реза, нужную температуру. Посмотреть модели в наличии можно в наших демозалах в Москве и Новосибирске</p>
               </CardContent>
             </Card>
@@ -801,8 +801,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <CardContent className="p-6">
-                <h3 className="font-bold text-2xl mb-4">Легкая разборка и мойка</h3>
+              <CardContent className="p-4 md:p-6">
+                <h3 className="font-bold text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4">Легкая разборка и мойка</h3>
                 <p className="text-muted-foreground text-lg">Оборудование легко разбирается и моется. Оборудование полностью соответствует требованиям пищевой безопасности и САНПИНам</p>
               </CardContent>
             </Card>
@@ -814,8 +814,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <CardContent className="p-6">
-                <h3 className="font-bold text-2xl mb-4">Простота в эксплуатации</h3>
+              <CardContent className="p-4 md:p-6">
+                <h3 className="font-bold text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4">Простота в эксплуатации</h3>
                 <p className="text-muted-foreground text-lg">Оборудование просто в эксплуатации. В наличие запчасти и консультация наших сервисных специалистов. Осуществляем ПНР при необходимости</p>
               </CardContent>
             </Card>
@@ -827,8 +827,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <CardContent className="p-6">
-                <h3 className="font-bold text-2xl mb-4">Пакет документов под тендер</h3>
+              <CardContent className="p-4 md:p-6">
+                <h3 className="font-bold text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4">Пакет документов под тендер</h3>
                 <p className="text-muted-foreground text-lg">При необходимости соберём пакет документов под тендер и дадим 2–3 альтернативы по бюджету и срокам</p>
               </CardContent>
             </Card>
@@ -840,8 +840,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <CardContent className="p-6">
-                <h3 className="font-bold text-2xl mb-4">Подбор комплекта для новых цехов</h3>
+              <CardContent className="p-4 md:p-6">
+                <h3 className="font-bold text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4">Подбор комплекта для новых цехов</h3>
                 <p className="text-muted-foreground text-lg">Для новых цехов бесплатно сделаем подбор комплекта и дорожную карту запуска</p>
               </CardContent>
             </Card>
@@ -853,8 +853,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <CardContent className="p-6">
-                <h3 className="font-bold text-2xl mb-4">Гарантия 12 месяцев</h3>
+              <CardContent className="p-4 md:p-6">
+                <h3 className="font-bold text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4">Гарантия 12 месяцев</h3>
                 <p className="text-muted-foreground text-lg">Полная гарантия на оборудование сроком 12 месяцев с момента запуска</p>
               </CardContent>
             </Card>
@@ -866,8 +866,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <CardContent className="p-6">
-                <h3 className="font-bold text-2xl mb-4">Доставка по всей России</h3>
+              <CardContent className="p-4 md:p-6">
+                <h3 className="font-bold text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4">Доставка по всей России</h3>
                 <p className="text-muted-foreground text-lg">Доставка по все России до терминала транспортной компании или Вашего производства</p>
               </CardContent>
             </Card>
@@ -906,7 +906,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               {filteredCatalogProducts.map((product) => (
                 <Card key={product.id} className="hover-scale overflow-hidden flex flex-col">
                   {product.additional_images && product.additional_images.length > 0 ? (
-                    <div className="relative w-full h-56 bg-secondary group">
+                    <div className="relative w-full h-40 sm:h-48 md:h-56 bg-secondary group">
                       <img 
                         src={product.additional_images[productImageIndexes[product.id] || 0] || product.picture} 
                         alt={product.name} 
@@ -964,7 +964,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                     <img 
                       src={product.picture} 
                       alt={product.name} 
-                      className="w-full h-56 object-contain bg-secondary cursor-pointer"
+                      className="w-full h-40 sm:h-48 md:h-56 object-contain bg-secondary cursor-pointer"
                       onClick={() => {
                         setLightboxImages([product.picture]);
                         setLightboxIndex(0);
@@ -1053,8 +1053,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
           </div>
           <div className="grid md:grid-cols-4 gap-6">
             <Card className="hover-scale">
-              <CardContent className="p-6">
-                <div className="text-5xl font-bold text-accent mb-4">01</div>
+              <CardContent className="p-4 md:p-6">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-4">01</div>
                 <h3 className="text-xl font-semibold mb-3">Узнаём задачу</h3>
                 <p className="text-muted-foreground">
                   Продукт, кг/ч, сырье, особенности цеха
@@ -1062,8 +1062,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               </CardContent>
             </Card>
             <Card className="hover-scale">
-              <CardContent className="p-6">
-                <div className="text-5xl font-bold text-accent mb-4">02</div>
+              <CardContent className="p-4 md:p-6">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-4">02</div>
                 <h3 className="text-xl font-semibold mb-3">Представляем 2–3 варианта оборудования на выбор</h3>
                 <p className="text-muted-foreground">
                   Под ваш бюджет и требования
@@ -1071,8 +1071,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               </CardContent>
             </Card>
             <Card className="hover-scale">
-              <CardContent className="p-6">
-                <div className="text-5xl font-bold text-accent mb-4">03</div>
+              <CardContent className="p-4 md:p-6">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-4">03</div>
                 <h3 className="text-xl font-semibold mb-3">Показываем в демозале</h3>
                 <p className="text-muted-foreground">
                   Можете привезти своё сырье
@@ -1080,8 +1080,8 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               </CardContent>
             </Card>
             <Card className="hover-scale">
-              <CardContent className="p-6">
-                <div className="text-5xl font-bold text-accent mb-4">04</div>
+              <CardContent className="p-4 md:p-6">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-accent mb-4">04</div>
                 <h3 className="text-xl font-semibold mb-3">Ставим + обучаем</h3>
                 <p className="text-muted-foreground">
                   Пусконаладка и инструктаж персонала
@@ -1137,7 +1137,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                       className="absolute inset-0 w-full h-full"
                     />
                   </div>
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 md:p-6">
                     <h3 className="text-xl font-semibold mb-2">{video.title}</h3>
                     <p className="text-muted-foreground">{video.description}</p>
                   </CardContent>
@@ -1159,7 +1159,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
             </p>
           </div>
           <div className="max-w-2xl mx-auto">
-            <Card className="p-8">
+            <Card className="p-4 sm:p-6 md:p-8">
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm text-muted-foreground">Вопрос {currentQuestion + 1} из 5</span>
@@ -1380,7 +1380,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 alt="Директор" 
                 className="w-full h-80 object-cover"
               />
-              <CardContent className="p-6">
+              <CardContent className="p-4 md:p-6">
                 <h3 className="text-xl font-bold mb-4 text-center">Директор</h3>
                 <Accordion type="single" collapsible className="space-y-2">
                   {faqData.director.map((faq, index) => (
@@ -1403,7 +1403,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 alt="Инженер" 
                 className="w-full h-80 object-cover"
               />
-              <CardContent className="p-6">
+              <CardContent className="p-4 md:p-6">
                 <h3 className="text-xl font-bold mb-4 text-center">Инженер</h3>
                 <Accordion type="single" collapsible className="space-y-2">
                   {faqData.engineer.map((faq, index) => (
@@ -1426,7 +1426,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 alt="Технолог" 
                 className="w-full h-80 object-cover"
               />
-              <CardContent className="p-6">
+              <CardContent className="p-4 md:p-6">
                 <h3 className="text-xl font-bold mb-4 text-center">Технолог</h3>
                 <Accordion type="single" collapsible className="space-y-2">
                   {faqData.technologist.map((faq, index) => (
@@ -1449,7 +1449,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 alt="Закупщик" 
                 className="w-full h-80 object-cover"
               />
-              <CardContent className="p-6">
+              <CardContent className="p-4 md:p-6">
                 <h3 className="text-xl font-bold mb-4 text-center">Закупщик</h3>
                 <Accordion type="single" collapsible className="space-y-2">
                   {faqData.purchaser.map((faq, index) => (
@@ -1597,9 +1597,9 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
       <section className="py-20 bg-gradient-to-br from-accent/20 via-background to-accent/10">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
-            <Card className="p-8 md:p-12 shadow-2xl">
+            <Card className="p-4 sm:p-6 md:p-12 shadow-2xl">
               <div className="text-center mb-8">
-                <h2 className="text-4xl md:text-5xl font-bold mb-4">Оставить заявку</h2>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Оставить заявку</h2>
                 <p className="text-xl text-muted-foreground">
                   Получите консультацию специалиста и подборку оборудования под ваши задачи
                 </p>
@@ -1610,7 +1610,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   <Input
                     id="request-name"
                     placeholder="Ваше имя"
-                    className="mt-2 text-lg p-6"
+                    className="mt-2 text-base sm:text-lg p-3 sm:p-6"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   />
@@ -1621,7 +1621,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                     id="request-phone"
                     type="tel"
                     placeholder="+7 (___) ___-__-__"
-                    className={`mt-2 text-lg p-6 ${phoneError ? 'border-red-500' : ''}`}
+                    className={`mt-2 text-base sm:text-lg p-3 sm:p-6 ${phoneError ? 'border-red-500' : ''}`}
                     value={formData.phone}
                     onChange={(e) => handlePhoneChange(e.target.value)}
                   />
@@ -1633,7 +1633,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                     id="request-email"
                     type="email"
                     placeholder="email@example.com"
-                    className={`mt-2 text-lg p-6 ${emailError ? 'border-red-500' : ''}`}
+                    className={`mt-2 text-base sm:text-lg p-3 sm:p-6 ${emailError ? 'border-red-500' : ''}`}
                     value={formData.email}
                     onChange={(e) => handleEmailChange(e.target.value)}
                   />
@@ -1652,7 +1652,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 <Button 
                   type="button"
                   size="lg" 
-                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-lg py-6"
+                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold text-base sm:text-lg py-4 sm:py-6"
                   disabled={formLoading || !formData.phone.trim() || !agreed}
                   onClick={() => submitForm('Оставить заявку')}
                 >
@@ -1666,7 +1666,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
 
       <footer id="contacts" className="bg-primary text-primary-foreground py-12">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             <div>
               <img src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/ff23bd6f-4714-405e-a0e1-1a2113cb8aa6.jpg" alt="Техно-Сиб Групп" className="h-12 mb-4" />
               <p className="text-base opacity-90">
