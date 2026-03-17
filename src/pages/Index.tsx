@@ -765,13 +765,13 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
             <Card className="hover-scale overflow-hidden">
               <div className="h-48 overflow-hidden">
                 <img
-                  src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/a656d1db-92e4-4e11-b350-30a9c05cd111.png"
+                  src={pageType === 'cutter' ? 'https://cdn.poehali.dev/files/fa0174c7-3200-4346-b407-5e59edc0861a.jpg' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/a656d1db-92e4-4e11-b350-30a9c05cd111.png'}
                   alt="Производительность"
                   className="w-full h-full object-cover"
                 />
               </div>
               <CardContent className="p-6">
-                <h3 className="font-bold text-2xl mb-4">Производительность от 300 до 10 000 кг/ч</h3>
+                <h3 className="font-bold text-2xl mb-4">{pageType === 'cutter' ? 'Измельчение до 5000 об/мин' : pageType === 'blokorezka' ? 'Производительность до 6000 кг/ч' : 'Производительность от 300 до 10 000 кг/ч'}</h3>
                 <p className="text-muted-foreground text-lg">Фактическая производительность нашего оборудования соответствует указанному в КП. Подберём модель под ваш объём и потребности</p>
               </CardContent>
             </Card>
@@ -785,7 +785,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               </div>
               <CardContent className="p-6">
                 <h3 className="font-bold text-2xl mb-4">Высокое качество реза</h3>
-                <p className="text-muted-foreground text-lg">Гарантируем высокое качество реза, нужную температуру, однородность фарша. Посмотреть модели в наличии можно в наших демозалах в Москве и Новосибирске</p>
+                <p className="text-muted-foreground text-lg">Гарантируем высокое качество реза, нужную температуру. Посмотреть модели в наличии можно в наших демозалах в Москве и Новосибирске</p>
               </CardContent>
             </Card>
             <Card className="hover-scale overflow-hidden">
@@ -882,24 +882,6 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
             
             {pageType === 'main' && (
               <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8 px-4">
-                <Button
-                  onClick={() => setCatalogTab('mincers')}
-                  className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'mincers' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
-                >
-                  Мясорубки/Волчки
-                </Button>
-                <Button
-                  onClick={() => setCatalogTab('cutters')}
-                  className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'cutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
-                >
-                  Куттеры
-                </Button>
-                <Button
-                  onClick={() => setCatalogTab('blockcutters')}
-                  className={`w-full sm:w-auto text-xl font-semibold px-10 py-6 h-auto ${catalogTab === 'blockcutters' ? 'bg-accent text-accent-foreground' : 'bg-secondary text-foreground hover:bg-accent/20'}`}
-                >
-                  Блокорезки
-                </Button>
               </div>
             )}
 
