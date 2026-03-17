@@ -537,9 +537,9 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               <a href="/" className="flex-shrink-0">
                 <img src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/ff23bd6f-4714-405e-a0e1-1a2113cb8aa6.jpg" alt="Техно-Сиб" className="h-8 md:h-10 lg:h-12" />
               </a>
-              <nav className="hidden lg:flex items-center gap-6">
+              <nav className="hidden lg:flex items-center gap-4 xl:gap-6 text-sm xl:text-base">
                 <div className="relative group">
-                  <button className="hover:text-accent transition-colors flex items-center gap-1">
+                  <button className="hover:text-accent transition-colors flex items-center gap-1 whitespace-nowrap">
                     Каталог
                     <Icon name="ChevronDown" className="w-4 h-4" />
                   </button>
@@ -552,35 +552,35 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                     </a>
                   </div>
                 </div>
-                <button onClick={() => scrollToSection('catalog')} className="hover:text-accent transition-colors">
+                <button onClick={() => scrollToSection('catalog')} className="hover:text-accent transition-colors whitespace-nowrap">
                   Модели
                 </button>
-                <button onClick={() => scrollToSection('advantages')} className="hover:text-accent transition-colors">
+                <button onClick={() => scrollToSection('advantages')} className="hover:text-accent transition-colors whitespace-nowrap">
                   Преимущества
                 </button>
                 {(pageType === 'main' || pageType === 'blokorezka') && (
-                  <button onClick={() => scrollToSection('videos')} className="hover:text-accent transition-colors">
+                  <button onClick={() => scrollToSection('videos')} className="hover:text-accent transition-colors whitespace-nowrap">
                     Видео
                   </button>
                 )}
-                <button onClick={() => scrollToSection('segments')} className="hover:text-accent transition-colors">
+                <button onClick={() => scrollToSection('segments')} className="hover:text-accent transition-colors whitespace-nowrap">
                   Подбор
                 </button>
-                <button onClick={() => scrollToSection('about')} className="hover:text-accent transition-colors">
+                <button onClick={() => scrollToSection('about')} className="hover:text-accent transition-colors whitespace-nowrap">
                   О компании
                 </button>
-                <button onClick={() => scrollToSection('contact-us')} className="hover:text-accent transition-colors">
+                <button onClick={() => scrollToSection('contact-us')} className="hover:text-accent transition-colors whitespace-nowrap">
                   Контакты
                 </button>
               </nav>
             </div>
-            <div className="hidden lg:flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-4 xl:gap-6 flex-shrink-0">
               <div className="flex flex-col items-end gap-0.5">
-                <a href="tel:88005057684" className="text-lg font-bold hover:text-accent transition-colors">8-800-505-76-84</a>
-                <a href="mailto:volchki@t-sib.ru" className="text-sm hover:text-accent transition-colors">volchki@t-sib.ru</a>
+                <a href="tel:88005057684" className="text-base xl:text-lg font-bold hover:text-accent transition-colors whitespace-nowrap">8-800-505-76-84</a>
+                <a href="mailto:volchki@t-sib.ru" className="text-xs xl:text-sm hover:text-accent transition-colors whitespace-nowrap">volchki@t-sib.ru</a>
               </div>
-              <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold" onClick={() => openModal('Получить КП за 24 часа')}>
-                Получить КП за 24 часа
+              <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold whitespace-nowrap text-sm xl:text-base" onClick={() => openModal('Получить КП за 24 часа')}>
+                Получить КП
               </Button>
             </div>
             <div className="flex lg:hidden items-center gap-3">
@@ -768,11 +768,11 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="hover-scale overflow-hidden">
-              <div className="h-48 overflow-hidden">
+              <div className="h-48 overflow-hidden bg-white">
                 <img
                   src={pageType === 'cutter' ? 'https://cdn.poehali.dev/files/fa0174c7-3200-4346-b407-5e59edc0861a.jpg' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/a656d1db-92e4-4e11-b350-30a9c05cd111.png'}
                   alt="Производительность"
-                  className="w-full h-full object-cover"
+                  className={`w-full h-full ${pageType === 'cutter' || pageType === 'blokorezka' ? 'object-contain p-2' : 'object-cover'}`}
                 />
               </div>
               <CardContent className="p-6">
