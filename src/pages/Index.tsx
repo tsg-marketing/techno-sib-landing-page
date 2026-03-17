@@ -711,7 +711,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   ) : (
                     <>
                       <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
-                        Промышленные мясорубки, волчки, куттеры и блокорезки
+                        Промышленные мясорубки и волчки
                       </h1>
                       <p className="text-base sm:text-lg md:text-2xl mb-6 sm:mb-8 text-muted-foreground">
                         Прямые поставки от ведущих европейских и азиатских производителей
