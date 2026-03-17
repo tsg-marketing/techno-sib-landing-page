@@ -532,13 +532,11 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-50 bg-primary text-primary-foreground shadow-lg">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
-            <div className="flex items-center gap-4 lg:gap-12">
-              <div className="flex flex-col gap-0.5">
+          <div className="flex items-center justify-between h-16 lg:h-20">
+            <div className="flex items-center gap-4 lg:gap-12 min-w-0">
+              <a href="/" className="flex-shrink-0">
                 <img src="https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/ff23bd6f-4714-405e-a0e1-1a2113cb8aa6.jpg" alt="Техно-Сиб" className="h-8 md:h-10 lg:h-12" />
-                <a href="tel:88005057684" className="text-sm lg:hidden font-bold whitespace-nowrap">8-800-505-76-84</a>
-                <a href="mailto:volchki@t-sib.ru" className="text-xs lg:hidden whitespace-nowrap">volchki@t-sib.ru</a>
-              </div>
+              </a>
               <nav className="hidden lg:flex items-center gap-6">
                 <div className="relative group">
                   <button className="hover:text-accent transition-colors flex items-center gap-1">
@@ -585,13 +583,16 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 Получить КП за 24 часа
               </Button>
             </div>
-            <div className="flex lg:hidden items-center gap-2">
+            <div className="flex lg:hidden items-center gap-3">
+              <a href="tel:88005057684" className="text-xs md:text-sm font-bold whitespace-nowrap hover:text-accent transition-colors">
+                8-800-505-76-84
+              </a>
               <Button
                 variant="ghost"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden text-primary-foreground hover:bg-primary-foreground/10 p-2"
+                className="lg:hidden text-primary-foreground hover:bg-primary-foreground/10 p-2 flex-shrink-0"
               >
-                <Icon name={mobileMenuOpen ? "X" : "Menu"} className="w-12 h-12" />
+                <Icon name={mobileMenuOpen ? "X" : "Menu"} className="w-8 h-8" />
               </Button>
             </div>
           </div>
@@ -625,6 +626,10 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 <button onClick={() => { scrollToSection('contact-us'); setMobileMenuOpen(false); }} className="hover:text-accent transition-colors text-left">
                   Контакты
                 </button>
+                <div className="flex flex-col gap-1 mt-2 pt-3 border-t border-primary-foreground/20">
+                  <a href="tel:88005057684" className="text-sm font-bold hover:text-accent transition-colors">8-800-505-76-84</a>
+                  <a href="mailto:volchki@t-sib.ru" className="text-sm hover:text-accent transition-colors">volchki@t-sib.ru</a>
+                </div>
                 <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold w-full mt-2" onClick={() => { openModal('Получить КП за 24 часа'); setMobileMenuOpen(false); }}>
                   Получить КП за 24 часа
                 </Button>
