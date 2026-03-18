@@ -648,7 +648,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="absolute inset-0 lg:hidden">
                   <img
-                    src={pageType === 'cutter' ? 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/313f1a47-85ff-45f2-a385-627ce10161f8.png' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg'}
+                    src={pageType === 'cutter' ? 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/313f1a47-85ff-45f2-a385-627ce10161f8.png' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/files/f35072b8-8eec-4add-854f-6f13b9409465.jpg'}
                     alt={pageType === 'cutter' ? 'Промышленный куттер' : pageType === 'blokorezka' ? 'Промышленная блокорезка' : 'Промышленная мясорубка'}
                     className="w-full h-full object-cover opacity-20"
                   />
@@ -747,7 +747,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 </div>
                 <div className="relative min-h-[400px] lg:min-h-[600px] overflow-hidden hidden lg:block">
                   <img
-                    src={pageType === 'cutter' ? 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/313f1a47-85ff-45f2-a385-627ce10161f8.png' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg'}
+                    src={pageType === 'cutter' ? 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/313f1a47-85ff-45f2-a385-627ce10161f8.png' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/files/f35072b8-8eec-4add-854f-6f13b9409465.jpg'}
                     alt={pageType === 'cutter' ? 'Промышленный куттер' : pageType === 'blokorezka' ? 'Промышленная блокорезка' : 'Промышленная мясорубка'}
                     className="w-full h-full object-contain bg-white"
                   />
