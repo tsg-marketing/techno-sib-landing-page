@@ -363,7 +363,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
     },
     {
       icon: 'Sparkles',
-      image: 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/files/b001e360-62cc-4ac3-b27b-6638fa567113.jpg',
+      image: 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/d9f4e1d2-c739-475d-b849-5a5750b6e5bd.png',
       title: 'Новый цех',
       description: 'Подбор комплекта + требования к подключению',
     },
@@ -398,7 +398,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
       capacity: '3000 кг/ч',
       type: 'Куттер',
       description: 'Высокая производительность для крупных комбинатов',
-      image: 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/files/b001e360-62cc-4ac3-b27b-6638fa567113.jpg',
+      image: 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/d9f4e1d2-c739-475d-b849-5a5750b6e5bd.png',
     },
     {
       brand: 'NIRO-TECH',
@@ -422,7 +422,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
       capacity: '10000 кг/ч',
       type: 'Куттер',
       description: 'Максимальная производительность для крупных предприятий',
-      image: 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/files/b001e360-62cc-4ac3-b27b-6638fa567113.jpg',
+      image: 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/d9f4e1d2-c739-475d-b849-5a5750b6e5bd.png',
     },
   ];
 
