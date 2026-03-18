@@ -648,7 +648,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               <div className="grid lg:grid-cols-2 gap-0">
                 <div className="absolute inset-0 lg:hidden">
                   <img
-                    src={pageType === 'cutter' ? 'https://cdn.poehali.dev/files/fa0174c7-3200-4346-b407-5e59edc0861a.jpg' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg'}
+                    src={pageType === 'cutter' ? 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/313f1a47-85ff-45f2-a385-627ce10161f8.png' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg'}
                     alt={pageType === 'cutter' ? 'Промышленный куттер' : pageType === 'blokorezka' ? 'Промышленная блокорезка' : 'Промышленная мясорубка'}
                     className="w-full h-full object-cover opacity-20"
                   />
@@ -747,7 +747,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 </div>
                 <div className="relative min-h-[400px] lg:min-h-[600px] overflow-hidden hidden lg:block">
                   <img
-                    src={pageType === 'cutter' ? 'https://cdn.poehali.dev/files/fa0174c7-3200-4346-b407-5e59edc0861a.jpg' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg'}
+                    src={pageType === 'cutter' ? 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/313f1a47-85ff-45f2-a385-627ce10161f8.png' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/files/8fa852c0-3557-45b7-a0cc-3d2d7ff3eecc.jpg'}
                     alt={pageType === 'cutter' ? 'Промышленный куттер' : pageType === 'blokorezka' ? 'Промышленная блокорезка' : 'Промышленная мясорубка'}
                     className="w-full h-full object-contain bg-white"
                   />
@@ -770,7 +770,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
             <Card className="hover-scale overflow-hidden">
               <div className="h-48 overflow-hidden bg-white">
                 <img
-                  src={pageType === 'cutter' ? 'https://cdn.poehali.dev/files/fa0174c7-3200-4346-b407-5e59edc0861a.jpg' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/a656d1db-92e4-4e11-b350-30a9c05cd111.png'}
+                  src={pageType === 'cutter' ? 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/313f1a47-85ff-45f2-a385-627ce10161f8.png' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/a656d1db-92e4-4e11-b350-30a9c05cd111.png'}
                   alt="Производительность"
                   className={`w-full h-full ${pageType === 'cutter' || pageType === 'blokorezka' ? 'object-contain p-2' : 'object-cover'}`}
                 />
