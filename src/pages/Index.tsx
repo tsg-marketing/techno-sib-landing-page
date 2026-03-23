@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,6 +29,26 @@ import {
 interface IndexProps {
   pageType?: 'main' | 'cutter' | 'blokorezka';
 }
+
+const translitMap: Record<string, string> = {
+  'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'zh','з':'z','и':'i',
+  'й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t',
+  'у':'u','ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ъ':'','ы':'y',
+  'ь':'','э':'e','ю':'yu','я':'ya',' ':'-','/':'-','.':'-',',':'','"':'','\'':'',
+  '(':'','»':'','«':'',')':'','№':'n'
+};
+
+const generateSlug = (name: string): string => {
+  return name
+    .toLowerCase()
+    .split('')
+    .map(c => translitMap[c] !== undefined ? translitMap[c] : c)
+    .join('')
+    .replace(/[^a-z0-9-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .substring(0, 80);
+};
 
 const Index = ({ pageType = 'main' }: IndexProps) => {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
@@ -105,7 +125,32 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
     }
   };
 
+  const openProductByHash = useCallback((products: typeof catalogProducts) => {
+    const hash = window.location.hash.replace('#', '');
+    if (!hash || products.length === 0) return;
+    const found = products.find(p => generateSlug(p.name) === hash);
+    if (found) {
+      setSelectedProduct(found);
+      setCurrentImageIndex(0);
+      setShowProductModal(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (catalogProducts.length > 0) {
+      openProductByHash(catalogProducts);
+    }
+  }, [catalogProducts, openProductByHash]);
+
+  useEffect(() => {
+    const onHashChange = () => openProductByHash(catalogProducts);
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, [catalogProducts, openProductByHash]);
+
   const openProductDetails = (product: any) => {
+    const slug = generateSlug(product.name);
+    window.history.replaceState(null, '', '#' + slug);
     setSelectedProduct(product);
     setCurrentImageIndex(0);
     setShowProductModal(true);
@@ -904,7 +949,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredCatalogProducts.map((product) => (
-                <Card key={product.id} className="hover-scale overflow-hidden flex flex-col">
+                <Card key={product.id} id={generateSlug(product.name)} className="hover-scale overflow-hidden flex flex-col">
                   {product.additional_images && product.additional_images.length > 0 ? (
                     <div className="relative w-full h-40 sm:h-48 md:h-56 bg-secondary group">
                       <img 
@@ -1769,7 +1814,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={showProductModal} onOpenChange={setShowProductModal}>
+      <Dialog open={showProductModal} onOpenChange={(open) => { setShowProductModal(open); if (!open) window.history.replaceState(null, '', window.location.pathname + window.location.search); }}>
         <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
           {selectedProduct && (
             <>

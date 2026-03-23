@@ -1,0 +1,22 @@
+{
+  "tests": [
+    {
+      "name": "Get XML feed",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Get JSON feed",
+      "method": "GET",
+      "path": "/?format=json",
+      "expectedStatus": 200
+    },
+    {
+      "name": "CORS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}
