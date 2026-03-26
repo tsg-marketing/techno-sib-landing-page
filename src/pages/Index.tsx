@@ -674,13 +674,14 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 </button>
               </nav>
             </div>
-            <div className="hidden lg:flex items-center gap-3 xl:gap-4 flex-shrink-0">
+            <div className="hidden lg:flex flex-col items-end gap-1 flex-shrink-0">
               <Button variant="secondary" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold whitespace-nowrap text-sm xl:text-base" onClick={() => openModal('Получить КП за 24 часа')}>
                 Получить КП
               </Button>
-              <div className="flex flex-col items-end gap-0">
-                <a href="tel:88005057684" className="text-sm xl:text-base font-bold hover:text-accent transition-colors whitespace-nowrap leading-tight">8-800-505-76-84</a>
-                <a href="mailto:volchki@t-sib.ru" className="text-xs hover:text-accent transition-colors whitespace-nowrap leading-tight">volchki@t-sib.ru</a>
+              <div className="flex items-center gap-2">
+                <a href="tel:88005057684" className="text-xs font-bold hover:text-accent transition-colors whitespace-nowrap">8-800-505-76-84</a>
+                <span className="opacity-40">|</span>
+                <a href="mailto:volchki@t-sib.ru" className="text-xs hover:text-accent transition-colors whitespace-nowrap">volchki@t-sib.ru</a>
               </div>
             </div>
             <div className="flex lg:hidden items-center gap-2">
