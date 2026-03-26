@@ -77,6 +77,11 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [quizPopupOpen, setQuizPopupOpen] = useState(false);
+  const [quizPopupShown, setQuizPopupShown] = useState(false);
+  const [quizPopupDismissed, setQuizPopupDismissed] = useState(false);
+  const [popupQuizStep, setPopupQuizStep] = useState(0);
+  const [popupQuizAnswers, setPopupQuizAnswers] = useState<string[]>(Array(6).fill(''));
 
   useEffect(() => {
     loadCatalog();
@@ -147,6 +152,21 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
   }, [catalogProducts, openProductByHash]);
+
+  useEffect(() => {
+    const alreadyShown = sessionStorage.getItem('quiz_popup_shown');
+    if (alreadyShown) {
+      setQuizPopupShown(true);
+      setQuizPopupDismissed(true);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setQuizPopupOpen(true);
+      setQuizPopupShown(true);
+      sessionStorage.setItem('quiz_popup_shown', '1');
+    }, 30000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const openProductDetails = (product: any) => {
     const slug = generateSlug(product.name);
@@ -283,7 +303,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
     quizAnswers.forEach((answer, idx) => {
       if (answer && idx < questions.length) quizData[questions[idx]] = answer;
     });
-    const productName = formTitle.startsWith('Запросить КП на ') ? formTitle.replace('Запросить КП на ', '') : '';
+    const productName = formTitle.startsWith('Запросить КП на ') ? formTitle.replace('Запросить КП на ', '') : formTitle.startsWith('Оставить заявку на ') ? formTitle.replace('Оставить заявку на ', '') : '';
     try {
       await fetch('/api/b24-send-lead.php', {
         method: 'POST',
@@ -341,6 +361,32 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
     }
   };
 
+  const handlePopupQuizAnswer = (answer: string) => {
+    const newAnswers = [...popupQuizAnswers];
+    newAnswers[popupQuizStep] = answer;
+    setPopupQuizAnswers(newAnswers);
+  };
+
+  const nextPopupQuestion = () => {
+    if (popupQuizStep < 7) {
+      setPopupQuizStep(popupQuizStep + 1);
+    }
+  };
+
+  const prevPopupQuestion = () => {
+    if (popupQuizStep > 0) {
+      setPopupQuizStep(popupQuizStep - 1);
+    }
+  };
+
+  const closeQuizPopup = () => {
+    setQuizPopupOpen(false);
+    setQuizPopupDismissed(true);
+  };
+
+  const openQuizPopup = () => {
+    setQuizPopupOpen(true);
+  };
 
   const problems = [
     {
@@ -698,16 +744,16 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                     className="w-full h-full object-cover opacity-20"
                   />
                 </div>
-                <div className="p-5 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-center relative z-10">
+                <div className="p-5 sm:p-6 md:p-8 lg:p-12 flex flex-col justify-center relative z-10">
                   {pageType === 'cutter' ? (
                     <>
-                      <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
+                      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight text-foreground">
                         Промышленные куттеры
                       </h1>
-                      <p className="text-base sm:text-lg md:text-2xl mb-6 sm:mb-8 text-muted-foreground">
+                      <p className="text-base sm:text-lg md:text-xl mb-4 sm:mb-6 text-muted-foreground">
                         Прямые поставки от ведущих европейских и азиатских производителей
                       </p>
-                      <div className="space-y-4 mb-8">
+                      <div className="space-y-3 mb-6">
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
                           <p className="text-base sm:text-lg text-foreground"><strong>Измельчение до 5000 об/мин</strong></p>
@@ -728,13 +774,13 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                     </>
                   ) : pageType === 'blokorezka' ? (
                     <>
-                      <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
+                      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight text-foreground">
                         Промышленные блокорезки
                       </h1>
-                      <p className="text-base sm:text-lg md:text-2xl mb-6 sm:mb-8 text-muted-foreground">
+                      <p className="text-base sm:text-lg md:text-xl mb-4 sm:mb-6 text-muted-foreground">
                         Прямые поставки от ведущих европейских и азиатских производителей
                       </p>
-                      <div className="space-y-4 mb-8">
+                      <div className="space-y-3 mb-6">
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
                           <p className="text-base sm:text-lg text-foreground"><strong>Работа без предварительной дефростации</strong></p>
@@ -755,13 +801,13 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                     </>
                   ) : (
                     <>
-                      <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-foreground">
+                      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight text-foreground">
                         Промышленные мясорубки и волчки
                       </h1>
-                      <p className="text-base sm:text-lg md:text-2xl mb-6 sm:mb-8 text-muted-foreground">
+                      <p className="text-base sm:text-lg md:text-xl mb-4 sm:mb-6 text-muted-foreground">
                         Прямые поставки от ведущих европейских и азиатских производителей
                       </p>
-                      <div className="space-y-4 mb-8">
+                      <div className="space-y-3 mb-6">
                         <div className="flex items-start gap-3">
                           <Icon name="CheckCircle2" className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
                           <p className="text-base sm:text-lg text-foreground"><strong>От 300 до 10 000 кг/ч</strong> — модели для любых объёмов производства</p>
@@ -790,7 +836,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                     </Button>
                   </div>
                 </div>
-                <div className="relative min-h-[400px] lg:min-h-[600px] overflow-hidden hidden lg:block">
+                <div className="relative min-h-[300px] lg:min-h-[400px] overflow-hidden hidden lg:block">
                   <img
                     src={pageType === 'cutter' ? 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/313f1a47-85ff-45f2-a385-627ce10161f8.png' : pageType === 'blokorezka' ? 'https://cdn.poehali.dev/files/daa3ea59-75d1-4975-b588-58e4e7333392.jpg' : 'https://cdn.poehali.dev/files/f35072b8-8eec-4add-854f-6f13b9409465.jpg'}
                     alt={pageType === 'cutter' ? 'Промышленный куттер' : pageType === 'blokorezka' ? 'Промышленная блокорезка' : 'Промышленная мясорубка'}
@@ -949,18 +995,13 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredCatalogProducts.map((product) => (
-                <Card key={product.id} id={generateSlug(product.name)} className="hover-scale overflow-hidden flex flex-col">
+                <Card key={product.id} id={generateSlug(product.name)} className="hover-scale overflow-hidden flex flex-col cursor-pointer" onClick={() => openProductDetails(product)}>
                   {product.additional_images && product.additional_images.length > 0 ? (
                     <div className="relative w-full h-40 sm:h-48 md:h-56 bg-secondary group">
                       <img 
                         src={product.additional_images[productImageIndexes[product.id] || 0] || product.picture} 
                         alt={product.name} 
-                        className="w-full h-full object-contain cursor-pointer"
-                        onClick={() => {
-                          setLightboxImages(product.additional_images);
-                          setLightboxIndex(productImageIndexes[product.id] || 0);
-                          setLightboxOpen(true);
-                        }}
+                        className="w-full h-full object-contain"
                       />
                       {product.additional_images.length > 1 && (
                         <>
@@ -1009,12 +1050,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                     <img 
                       src={product.picture} 
                       alt={product.name} 
-                      className="w-full h-40 sm:h-48 md:h-56 object-contain bg-secondary cursor-pointer"
-                      onClick={() => {
-                        setLightboxImages([product.picture]);
-                        setLightboxIndex(0);
-                        setLightboxOpen(true);
-                      }}
+                      className="w-full h-40 sm:h-48 md:h-56 object-contain bg-secondary"
                     />
                   )}
                   <CardContent className="p-6 flex-1 flex flex-col">
@@ -1038,17 +1074,17 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                       <Button 
                         size="lg"
                         className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base px-8 py-4" 
-                        onClick={() => openProductDetails(product)}
+                        onClick={(e) => { e.stopPropagation(); openModal('Оставить заявку на ' + product.name); }}
                       >
-                        Смотреть подробнее
+                        Оставить заявку
                       </Button>
                       <Button 
                         size="lg"
                         variant="outline"
-                        className="w-full bg-secondary hover:bg-secondary/80 text-foreground border-2 border-accent font-bold text-base px-8 py-4" 
-                        onClick={() => openModal('Запросить КП на ' + product.name)}
+                        className="w-full bg-secondary hover:bg-secondary/80 text-foreground border border-border font-medium text-base px-8 py-4" 
+                        onClick={(e) => { e.stopPropagation(); openProductDetails(product); }}
                       >
-                        Запросить КП
+                        Смотреть подробнее
                       </Button>
                     </div>
                   </CardContent>
@@ -1984,6 +2020,117 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               Закрыть
             </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {quizPopupDismissed && !quizPopupOpen && (
+        <button
+          onClick={openQuizPopup}
+          className="fixed right-0 top-1/2 -translate-y-1/2 z-50 bg-accent text-accent-foreground px-2 py-6 rounded-l-lg shadow-xl hover:pr-4 transition-all duration-300 writing-vertical"
+          style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+        >
+          <span className="text-sm font-bold tracking-wider flex items-center gap-2">
+            <Icon name="HelpCircle" className="w-4 h-4 rotate-90" />
+            Подобрать оборудование
+          </span>
+        </button>
+      )}
+
+      <Dialog open={quizPopupOpen} onOpenChange={(open) => { if (!open) closeQuizPopup(); else setQuizPopupOpen(true); }}>
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Подберём оборудование за 1 минуту</DialogTitle>
+          </DialogHeader>
+          <p className="text-muted-foreground text-sm mb-4">Ответьте на 5 вопросов — получите 3 модели с ценами</p>
+          
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm text-muted-foreground">Вопрос {popupQuizStep + 1} из 5</span>
+              <span className="text-sm font-semibold">{Math.round(((popupQuizStep + 1) / 5) * 100)}%</span>
+            </div>
+            <div className="w-full bg-secondary h-2 rounded-full overflow-hidden">
+              <div className="bg-accent h-full transition-all duration-300" style={{ width: `${((popupQuizStep + 1) / 5) * 100}%` }} />
+            </div>
+          </div>
+
+          {popupQuizStep < 5 ? (
+            <>
+              <h3 className="text-lg font-bold mb-4">{quizQuestions[popupQuizStep].question}</h3>
+              <div className="space-y-2 mb-4">
+                {quizQuestions[popupQuizStep].options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handlePopupQuizAnswer(option)}
+                    className={`w-full p-3 text-left rounded-lg border-2 transition-all text-sm ${
+                      popupQuizAnswers[popupQuizStep] === option
+                        ? 'border-accent bg-accent/10'
+                        : 'border-border hover:border-accent/50'
+                    }`}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-3">
+                {popupQuizStep > 0 && (
+                  <Button variant="outline" onClick={prevPopupQuestion} className="flex-1" size="sm">
+                    <Icon name="ChevronLeft" className="w-4 h-4 mr-1" />
+                    Назад
+                  </Button>
+                )}
+                <Button
+                  onClick={nextPopupQuestion}
+                  disabled={!popupQuizAnswers[popupQuizStep]}
+                  className="flex-1 bg-accent hover:bg-accent/90 text-accent-foreground"
+                  size="sm"
+                >
+                  {popupQuizStep === 4 ? 'Получить подборку' : 'Далее'}
+                  <Icon name="ChevronRight" className="w-4 h-4 ml-1" />
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div className="text-center">
+              <Icon name="CheckCircle" className="w-12 h-12 text-accent mx-auto mb-3" />
+              <h3 className="text-lg font-bold mb-3">Оставьте контакты для получения подборки</h3>
+              <form className="space-y-3">
+                <div>
+                  <Label htmlFor="popup-quiz-name">Имя *</Label>
+                  <Input id="popup-quiz-name" placeholder="Ваше имя" className="mt-1" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                </div>
+                <div>
+                  <Label htmlFor="popup-quiz-phone">Телефон *</Label>
+                  <Input id="popup-quiz-phone" type="tel" placeholder="+7 (___) ___-__-__" className={`mt-1 ${phoneError ? 'border-red-500' : ''}`} value={formData.phone} onChange={(e) => handlePhoneChange(e.target.value)} />
+                  {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
+                </div>
+                <div>
+                  <Label htmlFor="popup-quiz-email">Email</Label>
+                  <Input id="popup-quiz-email" type="email" placeholder="email@example.com" className={`mt-1 ${emailError ? 'border-red-500' : ''}`} value={formData.email} onChange={(e) => handleEmailChange(e.target.value)} />
+                  {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
+                </div>
+                <div className="flex items-start gap-2">
+                  <Checkbox id="popup-quiz-agree" checked={agreed} onCheckedChange={(checked) => setAgreed(checked as boolean)} />
+                  <label htmlFor="popup-quiz-agree" className="text-sm text-muted-foreground cursor-pointer">
+                    Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" className="text-accent underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" className="text-accent underline">согласие на обработку персональных данных</a>
+                  </label>
+                </div>
+                <Button 
+                  type="button" size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
+                  disabled={formLoading || !formData.phone.trim() || !agreed}
+                  onClick={() => { 
+                    const quizData: Record<string, string> = {};
+                    const questions = ['Что вы производите?', 'Какой объем в смену (кг)?', 'Когда нужно?', 'Какой бюджет?', 'Нужна ли помощь в монтаже и запуске?'];
+                    popupQuizAnswers.forEach((answer, idx) => { if (answer && idx < questions.length) quizData[questions[idx]] = answer; });
+                    setQuizAnswers(popupQuizAnswers);
+                    submitForm('Получить подборку (квиз-попап)');
+                    closeQuizPopup();
+                  }}
+                >
+                  {formLoading ? 'Отправка...' : 'Получить подборку'}
+                </Button>
+              </form>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </div>
