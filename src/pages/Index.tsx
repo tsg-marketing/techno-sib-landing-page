@@ -79,7 +79,6 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [quizPopupOpen, setQuizPopupOpen] = useState(false);
   const [quizPopupShown, setQuizPopupShown] = useState(false);
-  const [quizPopupDismissed, setQuizPopupDismissed] = useState(false);
   const [popupQuizStep, setPopupQuizStep] = useState(0);
   const [popupQuizAnswers, setPopupQuizAnswers] = useState<string[]>(Array(6).fill(''));
 
@@ -157,7 +156,6 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
     const alreadyShown = sessionStorage.getItem('quiz_popup_shown');
     if (alreadyShown) {
       setQuizPopupShown(true);
-      setQuizPopupDismissed(true);
       return;
     }
     const timer = setTimeout(() => {
@@ -293,14 +291,15 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
     return utm;
   };
 
-  const submitForm = async (formTitle: string) => {
+  const submitForm = async (formTitle: string, overrideQuizAnswers?: string[]) => {
     if (!formData.phone.trim()) return;
     if (!validatePhone(formData.phone)) return;
     if (formData.email.trim() && !validateEmail(formData.email)) return;
     setFormLoading(true);
     const quizData: Record<string, string> = {};
     const questions = ['Что вы производите?', 'Какой объем в смену (кг)?', 'Когда нужно?', 'Какой бюджет?', 'Нужна ли помощь в монтаже и запуске?'];
-    quizAnswers.forEach((answer, idx) => {
+    const answers = overrideQuizAnswers || quizAnswers;
+    answers.forEach((answer, idx) => {
       if (answer && idx < questions.length) quizData[questions[idx]] = answer;
     });
     const productName = formTitle.startsWith('Запросить КП на ') ? formTitle.replace('Запросить КП на ', '') : formTitle.startsWith('Оставить заявку на ') ? formTitle.replace('Оставить заявку на ', '') : '';
@@ -381,7 +380,6 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
 
   const closeQuizPopup = () => {
     setQuizPopupOpen(false);
-    setQuizPopupDismissed(true);
   };
 
   const openQuizPopup = () => {
@@ -631,7 +629,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               <nav className="hidden lg:flex items-center gap-4 xl:gap-6 text-sm xl:text-base">
                 <div className="relative group">
                   <button className="hover:text-accent transition-colors flex items-center gap-1 whitespace-nowrap">
-                    Каталог
+                    Оборудование
                     <Icon name="ChevronDown" className="w-4 h-4" />
                   </button>
                   <div className="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-xl border py-2 min-w-[200px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
@@ -657,9 +655,20 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 <button onClick={() => scrollToSection('segments')} className="hover:text-accent transition-colors whitespace-nowrap">
                   Подбор
                 </button>
-                <button onClick={() => scrollToSection('about')} className="hover:text-accent transition-colors whitespace-nowrap">
-                  О компании
-                </button>
+                <div className="relative group">
+                  <button className="hover:text-accent transition-colors flex items-center gap-1 whitespace-nowrap">
+                    О компании
+                    <Icon name="ChevronDown" className="w-4 h-4" />
+                  </button>
+                  <div className="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-xl border py-2 min-w-[220px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                    <button onClick={() => scrollToSection('about')} className="block w-full px-4 py-2 text-left text-foreground hover:bg-accent/10 hover:text-accent transition-colors">
+                      О компании
+                    </button>
+                    <button onClick={() => scrollToSection('warranty')} className="block w-full px-4 py-2 text-left text-foreground hover:bg-accent/10 hover:text-accent transition-colors">
+                      Доставка и гарантия
+                    </button>
+                  </div>
+                </div>
                 <button onClick={() => scrollToSection('contact-us')} className="hover:text-accent transition-colors whitespace-nowrap">
                   Контакты
                 </button>
@@ -690,7 +699,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
           {mobileMenuOpen && (
             <div className="lg:hidden py-4 border-t border-primary-foreground/20 animate-in slide-in-from-top">
               <nav className="flex flex-col gap-4">
-                <span className="text-sm font-bold opacity-70 uppercase tracking-wider">Каталог</span>
+                <span className="text-sm font-bold opacity-70 uppercase tracking-wider">Оборудование</span>
                 <a href="/cutter" className="hover:text-accent transition-colors pl-4">
                   Куттеры
                 </a>
@@ -713,6 +722,9 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                 </button>
                 <button onClick={() => { scrollToSection('about'); setMobileMenuOpen(false); }} className="hover:text-accent transition-colors text-left">
                   О компании
+                </button>
+                <button onClick={() => { scrollToSection('warranty'); setMobileMenuOpen(false); }} className="hover:text-accent transition-colors text-left pl-4">
+                  Доставка и гарантия
                 </button>
                 <button onClick={() => { scrollToSection('contact-us'); setMobileMenuOpen(false); }} className="hover:text-accent transition-colors text-left">
                   Контакты
@@ -972,9 +984,39 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
               {pageType === 'cutter' ? 'Каталог куттеров' : pageType === 'blokorezka' ? 'Каталог блокорезок' : 'Каталог оборудования'}
             </h2>
-            <p className="text-xl text-muted-foreground mb-8">
-              Подберите модель по типу и производительности
+            <p className="text-xl text-muted-foreground mb-4">
+              Подобрать оборудование с технологом
             </p>
+            <div className="max-w-2xl mx-auto mb-8">
+              <Card className="p-6">
+                <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); submitForm('Подобрать оборудование с технологом'); }}>
+                  <div className="grid sm:grid-cols-3 gap-4">
+                    <div>
+                      <Input placeholder="Ваше имя" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
+                    </div>
+                    <div>
+                      <Input type="tel" placeholder="+7 (___) ___-__-__" className={phoneError ? 'border-red-500' : ''} value={formData.phone} onChange={(e) => handlePhoneChange(e.target.value)} />
+                      {phoneError && <p className="text-red-500 text-xs mt-1">{phoneError}</p>}
+                    </div>
+                    <div>
+                      <Input type="email" placeholder="Email" className={emailError ? 'border-red-500' : ''} value={formData.email} onChange={(e) => handleEmailChange(e.target.value)} />
+                      {emailError && <p className="text-red-500 text-xs mt-1">{emailError}</p>}
+                    </div>
+                  </div>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div className="flex items-start gap-2 flex-1">
+                      <Checkbox id="catalog-agree" checked={agreed} onCheckedChange={(checked) => setAgreed(checked as boolean)} />
+                      <label htmlFor="catalog-agree" className="text-xs text-muted-foreground cursor-pointer text-left">
+                        Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" className="text-accent underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" className="text-accent underline">согласие на обработку персональных данных</a>
+                      </label>
+                    </div>
+                    <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold whitespace-nowrap" disabled={formLoading || !formData.phone.trim() || !agreed}>
+                      {formLoading ? 'Отправка...' : 'Оставить заявку'}
+                    </Button>
+                  </div>
+                </form>
+              </Card>
+            </div>
             
             {pageType === 'main' && (
               <div className="flex flex-col sm:flex-row justify-center gap-3 mb-8 px-4">
@@ -2023,10 +2065,10 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
         </DialogContent>
       </Dialog>
 
-      {quizPopupDismissed && !quizPopupOpen && (
+      {!quizPopupOpen && (
         <button
           onClick={openQuizPopup}
-          className="fixed right-0 top-1/2 -translate-y-1/2 z-50 bg-accent text-accent-foreground px-2 py-6 rounded-l-lg shadow-xl hover:pr-4 transition-all duration-300 writing-vertical"
+          className="fixed right-0 top-1/2 -translate-y-1/2 z-50 bg-accent text-accent-foreground px-2 py-6 rounded-l-lg shadow-xl hover:pr-4 transition-all duration-300 hidden md:block"
           style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
         >
           <span className="text-sm font-bold tracking-wider flex items-center gap-2">
@@ -2118,11 +2160,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   type="button" size="lg" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold"
                   disabled={formLoading || !formData.phone.trim() || !agreed}
                   onClick={() => { 
-                    const quizData: Record<string, string> = {};
-                    const questions = ['Что вы производите?', 'Какой объем в смену (кг)?', 'Когда нужно?', 'Какой бюджет?', 'Нужна ли помощь в монтаже и запуске?'];
-                    popupQuizAnswers.forEach((answer, idx) => { if (answer && idx < questions.length) quizData[questions[idx]] = answer; });
-                    setQuizAnswers(popupQuizAnswers);
-                    submitForm('Получить подборку (квиз-попап)');
+                    submitForm('Получить подборку (квиз-попап)', popupQuizAnswers);
                     closeQuizPopup();
                   }}
                 >
