@@ -180,7 +180,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
     try {
       const categoryMap: Record<string, string> = { 'wolves': 'wolves', 'cutters': 'cutters', 'blockcutters': 'blockcutters' };
       const cat = categoryMap[catalogTab] || 'wolves';
-      const res = await fetch(`https://functions.poehali.dev/88527527-534d-418c-8868-39a220542ad5?category=${cat}&limit=5`);
+      const res = await fetch(`https://functions.poehali.dev/88527527-534d-418c-8868-39a220542ad5?category=${cat}`);
       const data = await res.json();
       if (data.url) {
         window.open(data.url, '_blank');

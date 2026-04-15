@@ -1,6 +1,5 @@
 import json
 import os
-import base64
 import psycopg2
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
@@ -10,6 +9,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
+from reportlab.lib import colors
 from io import BytesIO
 from urllib.request import urlopen, Request
 import re
@@ -25,7 +25,10 @@ CORS_HEADERS = {
 ACCENT_COLOR = HexColor('#E87A2E')
 DARK_COLOR = HexColor('#1A1A2E')
 GRAY_COLOR = HexColor('#666666')
-LIGHT_BG = HexColor('#F5F5F5')
+LOGO_URL = 'https://cdn.poehali.dev/projects/bd9048a7-854b-4d3b-a782-386c5097cafc/bucket/ff23bd6f-4714-405e-a0e1-1a2113cb8aa6.jpg'
+COMPANY_NAME = 'Техно-Сиб'
+MANAGER_PHONE = '8-800-505-76-84'
+MANAGER_EMAIL = 'volchki@t-sib.ru'
 
 
 def get_db_conn():
@@ -52,21 +55,27 @@ def load_products():
         conn.close()
 
 
-def download_image(url, max_width=160, max_height=120):
-    """Скачиваем картинку и возвращаем ReportLab Image"""
+def download_image_bytes(url):
+    """Скачиваем картинку и возвращаем байты"""
     try:
         req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        data = urlopen(req, timeout=10).read()
-        buf = BytesIO(data)
-        img = Image(buf, width=max_width, height=max_height)
-        img.hAlign = 'CENTER'
-        return img
+        return urlopen(req, timeout=10).read()
     except Exception:
         return None
 
 
+def make_image(url, max_width, max_height):
+    """Скачиваем картинку и возвращаем ReportLab Image"""
+    data = download_image_bytes(url)
+    if not data:
+        return None
+    buf = BytesIO(data)
+    img = Image(buf, width=max_width, height=max_height)
+    img.hAlign = 'CENTER'
+    return img
+
+
 def strip_html(text):
-    """Убираем HTML-теги"""
     if not text:
         return ''
     clean = re.sub(r'<[^>]+>', ' ', text)
@@ -75,7 +84,6 @@ def strip_html(text):
 
 
 def download_font(url, filename):
-    """Скачиваем шрифт во временную папку"""
     import tempfile
     font_path = os.path.join(tempfile.gettempdir(), filename)
     if os.path.exists(font_path):
@@ -87,54 +95,95 @@ def download_font(url, filename):
     return font_path
 
 
-FONT_URLS = {
-    'regular': 'https://github.com/google/fonts/raw/main/ofl/nunitosans/NunitoSans%5B3slnt%2CYTLC%2Copsz%2Cwdth%2Cwght%5D.ttf',
-    'bold': 'https://github.com/google/fonts/raw/main/ofl/nunitosans/NunitoSans%5B3slnt%2CYTLC%2Copsz%2Cwdth%2Cwght%5D.ttf',
-}
-
 _fonts_registered = False
+_font_regular = 'Helvetica'
+_font_bold = 'Helvetica-Bold'
+
 
 def register_fonts():
-    """Регистрируем шрифты с поддержкой кириллицы"""
-    global _fonts_registered
+    global _fonts_registered, _font_regular, _font_bold
     if _fonts_registered:
-        return 'NunitoSans', 'NunitoSans'
+        return _font_regular, _font_bold
 
-    font_paths = [
+    dejavu_paths = [
         '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
         '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
     ]
 
-    if os.path.exists(font_paths[0]):
-        pdfmetrics.registerFont(TTFont('NunitoSans', font_paths[0]))
-        pdfmetrics.registerFont(TTFont('NunitoSans-Bold', font_paths[1]))
+    if os.path.exists(dejavu_paths[0]):
+        pdfmetrics.registerFont(TTFont('CyrFont', dejavu_paths[0]))
+        pdfmetrics.registerFont(TTFont('CyrFont-Bold', dejavu_paths[1]))
+        _font_regular = 'CyrFont'
+        _font_bold = 'CyrFont-Bold'
         _fonts_registered = True
-        return 'NunitoSans', 'NunitoSans-Bold'
+        return _font_regular, _font_bold
 
     try:
         regular_path = download_font(
             'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/opensans/OpenSans%5Bwdth%2Cwght%5D.ttf',
             'OpenSans-Regular.ttf'
         )
-        pdfmetrics.registerFont(TTFont('NunitoSans', regular_path))
-        pdfmetrics.registerFont(TTFont('NunitoSans-Bold', regular_path))
+        pdfmetrics.registerFont(TTFont('CyrFont', regular_path))
+        pdfmetrics.registerFont(TTFont('CyrFont-Bold', regular_path))
+        _font_regular = 'CyrFont'
+        _font_bold = 'CyrFont-Bold'
         _fonts_registered = True
-        return 'NunitoSans', 'NunitoSans-Bold'
+        return _font_regular, _font_bold
     except Exception as e:
-        print(f'Font download failed: {e}')
+        print(f'Font error: {e}')
         return 'Helvetica', 'Helvetica-Bold'
 
 
-def build_pdf(products, category_name, manager_name, manager_phone, manager_email):
+def _header_footer(canvas, doc, logo_img_data, font_regular, font_bold, category_name):
+    """Колонтитул: логотип + контакты сверху на каждой странице"""
+    canvas.saveState()
+    page_width, page_height = A4
+
+    canvas.setFillColor(DARK_COLOR)
+    canvas.rect(0, page_height - 22*mm, page_width, 22*mm, fill=1, stroke=0)
+
+    if logo_img_data:
+        try:
+            logo_buf = BytesIO(logo_img_data)
+            canvas.drawImage(
+                logo_buf, 12*mm, page_height - 18*mm,
+                width=30*mm, height=14*mm,
+                preserveAspectRatio=True, mask='auto'
+            )
+        except Exception:
+            canvas.setFillColor(colors.white)
+            canvas.setFont(font_bold, 14)
+            canvas.drawString(12*mm, page_height - 15*mm, COMPANY_NAME)
+    else:
+        canvas.setFillColor(colors.white)
+        canvas.setFont(font_bold, 14)
+        canvas.drawString(12*mm, page_height - 15*mm, COMPANY_NAME)
+
+    canvas.setFillColor(colors.white)
+    canvas.setFont(font_regular, 9)
+    canvas.drawRightString(page_width - 12*mm, page_height - 11*mm, MANAGER_PHONE)
+    canvas.drawRightString(page_width - 12*mm, page_height - 17*mm, MANAGER_EMAIL)
+
+    canvas.setFillColor(GRAY_COLOR)
+    canvas.setFont(font_regular, 7)
+    canvas.drawCentredString(page_width / 2, 10*mm, f'{COMPANY_NAME} | {MANAGER_PHONE} | {MANAGER_EMAIL}')
+    canvas.drawRightString(page_width - 12*mm, 10*mm, f'{canvas.getPageNumber()}')
+
+    canvas.restoreState()
+
+
+def build_pdf(products, category_name):
     """Генерируем PDF-каталог"""
     font_regular, font_bold = register_fonts()
+
+    logo_data = download_image_bytes(LOGO_URL)
 
     buf = BytesIO()
     doc = SimpleDocTemplate(
         buf,
         pagesize=A4,
-        topMargin=20*mm,
-        bottomMargin=20*mm,
+        topMargin=28*mm,
+        bottomMargin=18*mm,
         leftMargin=15*mm,
         rightMargin=15*mm
     )
@@ -143,41 +192,46 @@ def build_pdf(products, category_name, manager_name, manager_phone, manager_emai
 
     title_style = ParagraphStyle(
         'CustomTitle', parent=styles['Title'],
-        fontName=font_bold, fontSize=22,
-        textColor=DARK_COLOR, spaceAfter=6*mm,
+        fontName=font_bold, fontSize=20,
+        textColor=DARK_COLOR, spaceAfter=4*mm,
         alignment=TA_CENTER
     )
     subtitle_style = ParagraphStyle(
         'Subtitle', parent=styles['Normal'],
         fontName=font_regular, fontSize=11,
         textColor=GRAY_COLOR, alignment=TA_CENTER,
-        spaceAfter=10*mm
+        spaceAfter=8*mm
     )
     product_name_style = ParagraphStyle(
         'ProductName', parent=styles['Normal'],
-        fontName=font_bold, fontSize=14,
-        textColor=DARK_COLOR, spaceAfter=3*mm
+        fontName=font_bold, fontSize=13,
+        textColor=DARK_COLOR, spaceAfter=2*mm
     )
     price_style = ParagraphStyle(
         'Price', parent=styles['Normal'],
-        fontName=font_bold, fontSize=13,
+        fontName=font_bold, fontSize=12,
         textColor=ACCENT_COLOR, spaceAfter=3*mm
     )
     param_name_style = ParagraphStyle(
         'ParamName', parent=styles['Normal'],
-        fontName=font_regular, fontSize=9,
+        fontName=font_regular, fontSize=8,
         textColor=GRAY_COLOR
     )
     param_value_style = ParagraphStyle(
         'ParamValue', parent=styles['Normal'],
-        fontName=font_bold, fontSize=9,
+        fontName=font_bold, fontSize=8,
         textColor=DARK_COLOR
     )
     desc_style = ParagraphStyle(
         'Desc', parent=styles['Normal'],
-        fontName=font_regular, fontSize=9,
-        textColor=DARK_COLOR, leading=13,
+        fontName=font_regular, fontSize=8,
+        textColor=DARK_COLOR, leading=12,
         spaceAfter=4*mm
+    )
+    section_style = ParagraphStyle(
+        'Section', parent=styles['Normal'],
+        fontName=font_bold, fontSize=10,
+        textColor=ACCENT_COLOR, spaceAfter=2*mm, spaceBefore=3*mm
     )
     manager_style = ParagraphStyle(
         'Manager', parent=styles['Normal'],
@@ -186,19 +240,14 @@ def build_pdf(products, category_name, manager_name, manager_phone, manager_emai
     )
     manager_bold_style = ParagraphStyle(
         'ManagerBold', parent=styles['Normal'],
-        fontName=font_bold, fontSize=11,
+        fontName=font_bold, fontSize=12,
         textColor=DARK_COLOR, alignment=TA_CENTER
-    )
-    section_style = ParagraphStyle(
-        'Section', parent=styles['Normal'],
-        fontName=font_bold, fontSize=10,
-        textColor=ACCENT_COLOR, spaceAfter=2*mm, spaceBefore=3*mm
     )
 
     elements = []
 
-    elements.append(Paragraph('ТехСиб', title_style))
-    elements.append(Paragraph(f'Каталог: {category_name}', subtitle_style))
+    elements.append(Paragraph(f'Каталог: {category_name}', title_style))
+    elements.append(Paragraph(f'{len(products)} позиций', subtitle_style))
 
     for i, product in enumerate(products):
         if i > 0:
@@ -209,7 +258,7 @@ def build_pdf(products, category_name, manager_name, manager_phone, manager_emai
         price = product.get('price')
         if price and price > 0:
             elements.append(Paragraph(
-                f'от {int(price):,} ₽'.replace(',', ' '),
+                f'от {int(price):,} руб.'.replace(',', ' '),
                 price_style
             ))
 
@@ -217,10 +266,10 @@ def build_pdf(products, category_name, manager_name, manager_phone, manager_emai
         if product.get('additional_images'):
             img_url = product['additional_images'][0]
         if img_url:
-            img = download_image(img_url)
+            img = make_image(img_url, 150, 110)
             if img:
                 elements.append(img)
-                elements.append(Spacer(1, 4*mm))
+                elements.append(Spacer(1, 3*mm))
 
         params = product.get('params_full') or product.get('params') or []
         visible_params = [p for p in params if p.get('name', '').lower() != 'guid']
@@ -236,7 +285,7 @@ def build_pdf(products, category_name, manager_name, manager_phone, manager_emai
                     value = f'{value} {unit}'
                 table_data.append([
                     Paragraph(name, param_name_style),
-                    Paragraph(value, param_value_style)
+                    Paragraph(str(value), param_value_style)
                 ])
 
             if table_data:
@@ -244,8 +293,8 @@ def build_pdf(products, category_name, manager_name, manager_phone, manager_emai
                 t = Table(table_data, colWidths=col_widths)
                 t.setStyle(TableStyle([
                     ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-                    ('TOPPADDING', (0, 0), (-1, -1), 2),
-                    ('BOTTOMPADDING', (0, 0), (-1, -1), 2),
+                    ('TOPPADDING', (0, 0), (-1, -1), 1),
+                    ('BOTTOMPADDING', (0, 0), (-1, -1), 1),
                     ('LINEBELOW', (0, 0), (-1, -1), 0.5, HexColor('#EEEEEE')),
                 ]))
                 elements.append(t)
@@ -258,26 +307,28 @@ def build_pdf(products, category_name, manager_name, manager_phone, manager_emai
                 parts = desc.split('.', 1)
                 desc = parts[1].strip() if len(parts) > 1 else desc
 
-            if len(desc) > 600:
-                desc = desc[:600] + '...'
+            if len(desc) > 500:
+                desc = desc[:500] + '...'
             elements.append(Paragraph('Описание', section_style))
             elements.append(Paragraph(desc, desc_style))
 
-    elements.append(Spacer(1, 15*mm))
+    elements.append(Spacer(1, 12*mm))
     elements.append(Paragraph('—' * 40, manager_style))
-    elements.append(Spacer(1, 5*mm))
-    elements.append(Paragraph(manager_name, manager_bold_style))
+    elements.append(Spacer(1, 4*mm))
+    elements.append(Paragraph('Менеджер по продажам', manager_bold_style))
     elements.append(Spacer(1, 2*mm))
-    elements.append(Paragraph(f'☎ {manager_phone}', manager_style))
-    elements.append(Paragraph(f'✉ {manager_email}', manager_style))
+    elements.append(Paragraph(MANAGER_PHONE, manager_style))
+    elements.append(Paragraph(MANAGER_EMAIL, manager_style))
     elements.append(Spacer(1, 3*mm))
-    elements.append(Paragraph('ТехСиб — промышленное мясоперерабатывающее оборудование', ParagraphStyle(
-        'Footer', parent=styles['Normal'],
-        fontName=font_regular, fontSize=8,
-        textColor=GRAY_COLOR, alignment=TA_CENTER
-    )))
+    elements.append(Paragraph(
+        f'{COMPANY_NAME} — промышленное мясоперерабатывающее оборудование',
+        ParagraphStyle('FooterNote', parent=styles['Normal'],
+                       fontName=font_regular, fontSize=8,
+                       textColor=GRAY_COLOR, alignment=TA_CENTER)
+    ))
 
-    doc.build(elements)
+    on_page = lambda canvas, doc: _header_footer(canvas, doc, logo_data, font_regular, font_bold, category_name)
+    doc.build(elements, onFirstPage=on_page, onLaterPages=on_page)
     return buf.getvalue()
 
 
@@ -292,7 +343,8 @@ def handler(event, context):
 
     params = event.get('queryStringParameters') or {}
     category = params.get('category', 'wolves')
-    limit = int(params.get('limit', '5'))
+    limit_str = params.get('limit', '0')
+    limit = int(limit_str) if limit_str != '0' else 0
 
     category_map = {
         'wolves': (221, 'Промышленные волчки'),
@@ -304,23 +356,20 @@ def handler(event, context):
 
     products = load_products()
     filtered = [p for p in products if p.get('category_id') == cat_id]
+    filtered = [p for p in filtered if p.get('params') and len(p['params']) > 0]
     filtered.sort(key=lambda p: (0 if p.get('price') and p['price'] > 0 else 1, p.get('price') or 999999999))
-    selected = filtered[:limit]
 
-    if not selected:
+    if limit > 0:
+        filtered = filtered[:limit]
+
+    if not filtered:
         return {
             'statusCode': 404,
             'headers': {**CORS_HEADERS, 'Content-Type': 'application/json'},
             'body': json.dumps({'error': 'Товары не найдены'})
         }
 
-    pdf_bytes = build_pdf(
-        selected,
-        cat_name,
-        manager_name='Менеджер по продажам',
-        manager_phone='8-800-505-76-84',
-        manager_email='volchki@t-sib.ru'
-    )
+    pdf_bytes = build_pdf(filtered, cat_name)
 
     s3 = boto3.client(
         's3',
@@ -329,7 +378,9 @@ def handler(event, context):
         aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY']
     )
 
-    filename = f'catalog_{category}_{limit}.pdf'
+    import hashlib, time
+    hash_suffix = hashlib.md5(str(time.time()).encode()).hexdigest()[:8]
+    filename = f'catalog_{category}_{len(filtered)}_{hash_suffix}.pdf'
     s3_key = f'pdf/{filename}'
 
     s3.put_object(
@@ -347,6 +398,6 @@ def handler(event, context):
         'body': json.dumps({
             'url': cdn_url,
             'filename': filename,
-            'products_count': len(selected)
+            'products_count': len(filtered)
         })
     }
