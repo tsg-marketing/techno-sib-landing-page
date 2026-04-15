@@ -1103,16 +1103,29 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                         <span className="text-2xl font-bold text-accent">от {Math.round(product.price).toLocaleString('ru-RU')} ₽</span>
                       </div>
                     )}
-                    {product.params_preview && product.params_preview.length > 0 && (
-                      <div className="mb-4 space-y-1">
-                        {product.params_preview.map((param: any, idx: number) => (
-                          <div key={idx} className="text-sm">
-                            <span className="text-muted-foreground">{param.name}:</span>{' '}
-                            <span className="font-medium">{param.value}{param.unit ? ` ${param.unit}` : ''}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                    {product.params_preview && product.params_preview.length > 0 && (() => {
+                      const categoryFilters: Record<string, string[]> = {
+                        'wolves': ['бренд', 'производительность'],
+                        'blockcutters': ['бренд', 'производительность', 'максимальный размер'],
+                        'cutters': ['бренд', 'производительность', 'скорость'],
+                      };
+                      const allowedKeys = categoryFilters[catalogTab] || categoryFilters['wolves'];
+                      const filtered = product.params_preview.filter((param: any) => {
+                        const nameLower = param.name.toLowerCase();
+                        if (nameLower === 'guid') return false;
+                        return allowedKeys.some((key: string) => nameLower.includes(key));
+                      });
+                      return filtered.length > 0 ? (
+                        <div className="mb-4 space-y-1">
+                          {filtered.map((param: any, idx: number) => (
+                            <div key={idx} className="text-sm">
+                              <span className="text-muted-foreground">{param.name}:</span>{' '}
+                              <span className="font-medium">{param.value}{param.unit ? ` ${param.unit}` : ''}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null;
+                    })()}
                     <div className="mt-auto space-y-2">
                       <Button 
                         size="lg"
@@ -1966,7 +1979,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   <div>
                     <h3 className="text-lg font-semibold mb-3">Характеристики</h3>
                     <div className="grid sm:grid-cols-2 gap-3">
-                      {selectedProduct.params_full.map((param: any, idx: number) => (
+                      {selectedProduct.params_full.filter((param: any) => param.name.toLowerCase() !== 'guid').map((param: any, idx: number) => (
                         <div key={idx} className="text-sm border-b pb-2">
                           <span className="text-muted-foreground">{param.name}:</span>{' '}
                           <span className="font-medium">{param.value}{param.unit ? ` ${param.unit}` : ''}</span>
