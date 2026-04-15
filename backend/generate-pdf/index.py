@@ -74,13 +74,54 @@ def strip_html(text):
     return clean
 
 
+def download_font(url, filename):
+    """Скачиваем шрифт во временную папку"""
+    import tempfile
+    font_path = os.path.join(tempfile.gettempdir(), filename)
+    if os.path.exists(font_path):
+        return font_path
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    data = urlopen(req, timeout=15).read()
+    with open(font_path, 'wb') as f:
+        f.write(data)
+    return font_path
+
+
+FONT_URLS = {
+    'regular': 'https://github.com/google/fonts/raw/main/ofl/nunitosans/NunitoSans%5B3slnt%2CYTLC%2Copsz%2Cwdth%2Cwght%5D.ttf',
+    'bold': 'https://github.com/google/fonts/raw/main/ofl/nunitosans/NunitoSans%5B3slnt%2CYTLC%2Copsz%2Cwdth%2Cwght%5D.ttf',
+}
+
+_fonts_registered = False
+
 def register_fonts():
     """Регистрируем шрифты с поддержкой кириллицы"""
+    global _fonts_registered
+    if _fonts_registered:
+        return 'NunitoSans', 'NunitoSans'
+
+    font_paths = [
+        '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf',
+        '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',
+    ]
+
+    if os.path.exists(font_paths[0]):
+        pdfmetrics.registerFont(TTFont('NunitoSans', font_paths[0]))
+        pdfmetrics.registerFont(TTFont('NunitoSans-Bold', font_paths[1]))
+        _fonts_registered = True
+        return 'NunitoSans', 'NunitoSans-Bold'
+
     try:
-        pdfmetrics.registerFont(TTFont('DejaVu', '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'))
-        pdfmetrics.registerFont(TTFont('DejaVu-Bold', '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'))
-        return 'DejaVu', 'DejaVu-Bold'
-    except Exception:
+        regular_path = download_font(
+            'https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/opensans/OpenSans%5Bwdth%2Cwght%5D.ttf',
+            'OpenSans-Regular.ttf'
+        )
+        pdfmetrics.registerFont(TTFont('NunitoSans', regular_path))
+        pdfmetrics.registerFont(TTFont('NunitoSans-Bold', regular_path))
+        _fonts_registered = True
+        return 'NunitoSans', 'NunitoSans-Bold'
+    except Exception as e:
+        print(f'Font download failed: {e}')
         return 'Helvetica', 'Helvetica-Bold'
 
 
