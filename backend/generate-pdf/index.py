@@ -59,7 +59,7 @@ def download_image_bytes(url):
     """Скачиваем картинку и возвращаем байты"""
     try:
         req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        return urlopen(req, timeout=10).read()
+        return urlopen(req, timeout=5).read()
     except Exception:
         return None
 
@@ -262,14 +262,15 @@ def build_pdf(products, category_name):
                 price_style
             ))
 
-        img_url = product.get('picture', '')
-        if product.get('additional_images'):
-            img_url = product['additional_images'][0]
-        if img_url:
-            img = make_image(img_url, 150, 110)
-            if img:
-                elements.append(img)
-                elements.append(Spacer(1, 3*mm))
+        if i < 15:
+            img_url = product.get('picture', '')
+            if product.get('additional_images'):
+                img_url = product['additional_images'][0]
+            if img_url:
+                img = make_image(img_url, 140, 100)
+                if img:
+                    elements.append(img)
+                    elements.append(Spacer(1, 3*mm))
 
         params = product.get('params_full') or product.get('params') or []
         visible_params = [p for p in params if p.get('name', '').lower() != 'guid']
