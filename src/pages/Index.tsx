@@ -1103,14 +1103,16 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                         <span className="text-2xl font-bold text-accent">от {Math.round(product.price).toLocaleString('ru-RU')} ₽</span>
                       </div>
                     )}
-                    {product.params_preview && product.params_preview.length > 0 && (() => {
+                    {(() => {
+                      const allParams = product.params_full || product.params || product.params_preview || [];
+                      if (allParams.length === 0) return null;
                       const categoryFilters: Record<string, string[]> = {
                         'wolves': ['бренд', 'производительность'],
                         'blockcutters': ['бренд', 'производительность', 'максимальный размер'],
                         'cutters': ['бренд', 'производительность', 'скорость'],
                       };
                       const allowedKeys = categoryFilters[catalogTab] || categoryFilters['wolves'];
-                      const filtered = product.params_preview.filter((param: any) => {
+                      const filtered = allParams.filter((param: any) => {
                         const nameLower = param.name.toLowerCase();
                         if (nameLower === 'guid') return false;
                         return allowedKeys.some((key: string) => nameLower.includes(key));
