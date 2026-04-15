@@ -68,7 +68,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
   const [modalTitle, setModalTitle] = useState('Получить консультацию');
   const [catalogProducts, setCatalogProducts] = useState<any[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(true);
-  const [pdfLoading, setPdfLoading] = useState(false);
+
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [showProductModal, setShowProductModal] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
@@ -175,26 +175,6 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
     setShowProductModal(true);
   };
 
-  const downloadPdf = async () => {
-    setPdfLoading(true);
-    try {
-      const categoryMap: Record<string, string> = { 'wolves': 'wolves', 'cutters': 'cutters', 'blockcutters': 'blockcutters' };
-      const cat = categoryMap[catalogTab] || 'wolves';
-      const res = await fetch(`https://functions.poehali.dev/88527527-534d-418c-8868-39a220542ad5?category=${cat}`);
-      if (!res.ok) {
-        console.error('HTTP', res.status, ':', res.url);
-        return;
-      }
-      const data = await res.json();
-      if (data.url) {
-        window.open(data.url, '_blank');
-      }
-    } catch (err) {
-      console.error('PDF error:', err);
-    } finally {
-      setPdfLoading(false);
-    }
-  };
 
   const uniqueBrands = Array.from(new Set(
     catalogProducts
@@ -1172,19 +1152,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               ))}
             </div>
           )}
-          {!catalogLoading && filteredCatalogProducts.length > 0 && (
-            <div className="text-center mt-8">
-              <Button
-                variant="outline"
-                className="gap-2"
-                onClick={downloadPdf}
-                disabled={pdfLoading}
-              >
-                <Icon name={pdfLoading ? "Loader2" : "FileDown"} size={18} className={pdfLoading ? "animate-spin" : ""} />
-                {pdfLoading ? 'Генерация PDF...' : 'Скачать каталог в PDF'}
-              </Button>
-            </div>
-          )}
+
         </div>
       </section>
 
