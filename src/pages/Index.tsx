@@ -1991,15 +1991,23 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                   </div>
                 )}
 
-                {selectedProduct.description && (
-                  <div>
-                    <h3 className="text-lg font-semibold mb-3">Описание</h3>
-                    <div 
-                      className="prose prose-sm max-w-none"
-                      dangerouslySetInnerHTML={{ __html: selectedProduct.description }}
-                    />
-                  </div>
-                )}
+                {selectedProduct.description && (() => {
+                  let desc = selectedProduct.description;
+                  const name = selectedProduct.name;
+                  const firstLine = desc.split('\n')[0] || '';
+                  if (name && firstLine.toLowerCase().includes(name.toLowerCase().slice(0, Math.min(name.length, 20)))) {
+                    desc = desc.split('\n').slice(1).join('\n').trim();
+                  }
+                  return desc ? (
+                    <div>
+                      <h3 className="text-lg font-semibold mb-3">Описание</h3>
+                      <div 
+                        className="prose prose-sm max-w-none"
+                        dangerouslySetInnerHTML={{ __html: desc }}
+                      />
+                    </div>
+                  ) : null;
+                })()}
 
                 <div className="pt-4 border-t">
                   <Button 
