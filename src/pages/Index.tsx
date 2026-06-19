@@ -1136,7 +1136,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
                         className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-bold text-base px-8 py-4" 
                         onClick={(e) => { e.stopPropagation(); openModal('Оставить заявку на ' + product.name); }}
                       >
-                        Оставить заявку
+                        Получить консультацию
                       </Button>
                       <Button 
                         size="lg"
