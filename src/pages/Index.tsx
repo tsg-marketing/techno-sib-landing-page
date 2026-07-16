@@ -1853,7 +1853,12 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
               </div>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-primary-foreground/20 text-center text-sm opacity-90">
+          <div className="mt-8 pt-8 border-t border-primary-foreground/20 text-sm opacity-80 space-y-1 leading-relaxed">
+            <p>Общество с ограниченной ответственностью «Техно-Сиб Групп»</p>
+            <p>Юридический адрес: 630005, г. Новосибирск, ул. Крылова, д. 36, этаж 8, офис 81</p>
+            <p>ИНН 5406804844 · ОГРН 1205400012146 · КПП 540601001</p>
+          </div>
+          <div className="mt-6 pt-6 border-t border-primary-foreground/20 text-center text-sm opacity-90">
             2026 Техно-Сиб Групп. Все права защищены.
           </div>
         </div>
