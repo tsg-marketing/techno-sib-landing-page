@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
+import { getYaClientId } from '@/lib/yaClientId';
 import {
   Dialog,
   DialogContent,
@@ -305,6 +306,7 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
       if (answer && idx < questions.length) quizData[questions[idx]] = answer;
     });
     const productName = formTitle.startsWith('Запросить КП на ') ? formTitle.replace('Запросить КП на ', '') : formTitle.startsWith('Оставить заявку на ') ? formTitle.replace('Оставить заявку на ', '') : '';
+    const yaClientId = await getYaClientId();
     try {
       await fetch('/api/b24-send-lead.php', {
         method: 'POST',
@@ -313,11 +315,12 @@ const Index = ({ pageType = 'main' }: IndexProps) => {
           name: formData.name.trim(),
           phone: formData.phone.trim(),
           email: formData.email.trim(),
-          form_title: formTitle,
+          form_title: yaClientId ? `${formTitle}\nClientID: ${yaClientId}` : formTitle,
           product_name: productName,
           quiz_answers: quizData,
           utm: getUtmFromCookies(),
           page_url: window.location.href,
+          yaClientId,
         }),
       });
       if (typeof window !== 'undefined' && (window as any).ym) {
