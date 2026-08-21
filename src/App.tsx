@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import CutterPage from "./pages/CutterPage";
 import BlokorezkaPage from "./pages/BlokorezkaPage";
 import NotFound from "./pages/NotFound";
+import SpecPage from "./pages/SpecPage";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/cutter" element={<CutterPage />} />
           <Route path="/blokorezka" element={<BlokorezkaPage />} />
+          <Route path="/tech-spec-2026-tsib" element={<SpecPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
